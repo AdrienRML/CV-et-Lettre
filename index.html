@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance CV & Lettre de Motivation Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Finance CV & Cover Letter Generator</h1>
+            <p class="subtitle">Generez un CV et une lettre de motivation optimises ATS pour la finance</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- Step indicator -->
+        <div class="steps-indicator">
+            <div class="step active" data-step="1">
+                <span class="step-number">1</span>
+                <span class="step-label">Informations</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="2">
+                <span class="step-number">2</span>
+                <span class="step-label">Formation</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="3">
+                <span class="step-number">3</span>
+                <span class="step-label">Experiences</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="4">
+                <span class="step-number">4</span>
+                <span class="step-label">Competences</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="5">
+                <span class="step-number">5</span>
+                <span class="step-label">Offre d'emploi</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="6">
+                <span class="step-number">6</span>
+                <span class="step-label">Resultats</span>
+            </div>
+        </div>
+
+        <!-- Step 1: Personal Info -->
+        <section class="form-step active" id="step-1">
+            <h2>Informations personnelles</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="firstName">Prenom *</label>
+                    <input type="text" id="firstName" required placeholder="Jean">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Nom *</label>
+                    <input type="text" id="lastName" required placeholder="Dupont">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" required placeholder="jean.dupont@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telephone *</label>
+                    <input type="tel" id="phone" required placeholder="+33 6 12 34 56 78">
+                </div>
+                <div class="form-group">
+                    <label for="address">Adresse</label>
+                    <input type="text" id="address" placeholder="Paris, France">
+                </div>
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn</label>
+                    <input type="text" id="linkedin" placeholder="linkedin.com/in/jeandupont">
+                </div>
+                <div class="form-group">
+                    <label for="nationality">Nationalite</label>
+                    <input type="text" id="nationality" placeholder="Francaise">
+                </div>
+                <div class="form-group">
+                    <label for="birthDate">Date de naissance</label>
+                    <input type="date" id="birthDate">
+                </div>
+                <div class="form-group">
+                    <label for="drivingLicense">Permis de conduire</label>
+                    <input type="text" id="drivingLicense" placeholder="Permis B">
+                </div>
+            </div>
+            <div class="form-nav">
+                <div></div>
+                <button class="btn btn-primary" onclick="nextStep(2)">Suivant</button>
+            </div>
+        </section>
+
+        <!-- Step 2: Education -->
+        <section class="form-step" id="step-2">
+            <h2>Formation</h2>
+            <div id="education-list">
+                <div class="entry-card" data-index="0">
+                    <div class="entry-header">
+                        <h3>Formation 1</h3>
+                        <button class="btn-remove" onclick="removeEntry('education', 0)" title="Supprimer">&times;</button>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Etablissement *</label>
+                            <input type="text" class="edu-school" placeholder="HEC Paris, ESSEC, Dauphine...">
+                        </div>
+                        <div class="form-group">
+                            <label>Diplome *</label>
+                            <input type="text" class="edu-degree" placeholder="Master en Finance">
+                        </div>
+                        <div class="form-group">
+                            <label>Specialite</label>
+                            <input type="text" class="edu-field" placeholder="Finance de marche">
+                        </div>
+                        <div class="form-group">
+                            <label>GPA / Mention</label>
+                            <input type="text" class="edu-gpa" placeholder="Mention Bien, 15.2/20">
+                        </div>
+                        <div class="form-group">
+                            <label>Date debut</label>
+                            <input type="text" class="edu-start" placeholder="Sept 2020">
+                        </div>
+                        <div class="form-group">
+                            <label>Date fin</label>
+                            <input type="text" class="edu-end" placeholder="Juin 2023">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Cours / details pertinents</label>
+                            <textarea class="edu-details" rows="2" placeholder="Cours : Valorisation d'entreprise, Fusions-Acquisitions, Modelisation financiere..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="addEducation()">+ Ajouter une formation</button>
+            <div class="form-nav">
+                <button class="btn btn-outline" onclick="prevStep(1)">Precedent</button>
+                <button class="btn btn-primary" onclick="nextStep(3)">Suivant</button>
+            </div>
+        </section>
+
+        <!-- Step 3: Experience -->
+        <section class="form-step" id="step-3">
+            <h2>Experiences professionnelles</h2>
+            <div id="experience-list">
+                <div class="entry-card" data-index="0">
+                    <div class="entry-header">
+                        <h3>Experience 1</h3>
+                        <button class="btn-remove" onclick="removeEntry('experience', 0)" title="Supprimer">&times;</button>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Entreprise *</label>
+                            <input type="text" class="exp-company" placeholder="Goldman Sachs, Rothschild...">
+                        </div>
+                        <div class="form-group">
+                            <label>Poste *</label>
+                            <input type="text" class="exp-title" placeholder="Analyste M&A">
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu</label>
+                            <input type="text" class="exp-location" placeholder="Paris, France">
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select class="exp-type">
+                                <option value="Stage">Stage</option>
+                                <option value="Alternance">Alternance</option>
+                                <option value="CDI">CDI</option>
+                                <option value="CDD">CDD</option>
+                                <option value="Freelance">Freelance</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Date debut</label>
+                            <input type="text" class="exp-start" placeholder="Jan 2023">
+                        </div>
+                        <div class="form-group">
+                            <label>Date fin</label>
+                            <input type="text" class="exp-end" placeholder="Juin 2023 ou Present">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Description (une ligne par bullet point) *</label>
+                            <textarea class="exp-description" rows="4" placeholder="Realisation de modeles de valorisation DCF pour des transactions de +500M EUR
+Preparation de pitch books et memos d'investissement pour le comite
+Analyse de donnees financieres sur Bloomberg et Capital IQ"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="addExperience()">+ Ajouter une experience</button>
+            <div class="form-nav">
+                <button class="btn btn-outline" onclick="prevStep(2)">Precedent</button>
+                <button class="btn btn-primary" onclick="nextStep(4)">Suivant</button>
+            </div>
+        </section>
+
+        <!-- Step 4: Skills, Languages, Interests -->
+        <section class="form-step" id="step-4">
+            <h2>Competences, Langues & Centres d'interet</h2>
+
+            <div class="subsection">
+                <h3>Competences techniques</h3>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Logiciels & outils</label>
+                        <input type="text" id="technicalSkills" placeholder="Excel (VBA, TCD), PowerPoint, Bloomberg, Capital IQ, FactSet, Python, SQL">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Certifications</label>
+                        <input type="text" id="certifications" placeholder="CFA Level I, AMF, Bloomberg Market Concepts">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Modelisation / Competences finance</label>
+                        <input type="text" id="financeSkills" placeholder="DCF, LBO, Comps, Accretion/Dilution, Modelisation financiere">
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Langues</h3>
+                <div id="languages-list">
+                    <div class="inline-entry">
+                        <input type="text" class="lang-name" placeholder="Francais">
+                        <select class="lang-level">
+                            <option value="Langue maternelle">Langue maternelle</option>
+                            <option value="Courant (C1/C2)">Courant (C1/C2)</option>
+                            <option value="Avance (B2)">Avance (B2)</option>
+                            <option value="Intermediaire (B1)">Intermediaire (B1)</option>
+                            <option value="Debutant (A1/A2)">Debutant (A1/A2)</option>
+                        </select>
+                        <button class="btn-remove-inline" onclick="this.parentElement.remove()">&times;</button>
+                    </div>
+                    <div class="inline-entry">
+                        <input type="text" class="lang-name" placeholder="Anglais">
+                        <select class="lang-level">
+                            <option value="Langue maternelle">Langue maternelle</option>
+                            <option value="Courant (C1/C2)" selected>Courant (C1/C2)</option>
+                            <option value="Avance (B2)">Avance (B2)</option>
+                            <option value="Intermediaire (B1)">Intermediaire (B1)</option>
+                            <option value="Debutant (A1/A2)">Debutant (A1/A2)</option>
+                        </select>
+                        <button class="btn-remove-inline" onclick="this.parentElement.remove()">&times;</button>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="addLanguage()">+ Ajouter une langue</button>
+            </div>
+
+            <div class="subsection">
+                <h3>Centres d'interet</h3>
+                <div class="form-group full-width">
+                    <label>Interets & activites extra-professionnelles</label>
+                    <textarea id="interests" rows="3" placeholder="Sport : Tennis (classement 15/2), Marathon de Paris 2023 (3h45)
+Associatif : Tresorier du club Finance de l'ESSEC
+Autres : Lecture (marches financiers, geopolitique), Voyages (15 pays)"></textarea>
+                </div>
+            </div>
+
+            <div class="form-nav">
+                <button class="btn btn-outline" onclick="prevStep(3)">Precedent</button>
+                <button class="btn btn-primary" onclick="nextStep(5)">Suivant</button>
+            </div>
+        </section>
+
+        <!-- Step 5: Job Offer -->
+        <section class="form-step" id="step-5">
+            <h2>Offre d'emploi cible</h2>
+            <p class="form-help">Collez l'offre d'emploi complete ci-dessous. Le generateur analysera les mots-cles pour optimiser votre CV et lettre de motivation pour l'ATS.</p>
+            <div class="form-group full-width">
+                <label for="jobTitle">Intitule du poste *</label>
+                <input type="text" id="jobTitle" placeholder="Analyste M&A - Stage 6 mois">
+            </div>
+            <div class="form-group full-width">
+                <label for="companyName">Nom de l'entreprise *</label>
+                <input type="text" id="companyName" placeholder="Rothschild & Co">
+            </div>
+            <div class="form-group full-width">
+                <label for="jobOffer">Texte complet de l'offre *</label>
+                <textarea id="jobOffer" rows="12" placeholder="Collez ici le texte complet de l'offre d'emploi...
+
+Exemple :
+Nous recherchons un(e) stagiaire analyste pour rejoindre notre equipe M&A a Paris. Le/la candidat(e) participera a l'execution de transactions de fusions-acquisitions...
+
+Profil recherche :
+- Formation Bac+5 en finance (Grande Ecole de Commerce ou Master Finance)
+- Excellentes competences analytiques
+- Maitrise d'Excel et PowerPoint
+- Anglais courant
+..."></textarea>
+            </div>
+            <div class="form-group full-width">
+                <label for="additionalNotes">Notes supplementaires (optionnel)</label>
+                <textarea id="additionalNotes" rows="3" placeholder="Informations supplementaires : contact referent, elements a mettre en avant..."></textarea>
+            </div>
+            <div class="form-nav">
+                <button class="btn btn-outline" onclick="prevStep(4)">Precedent</button>
+                <button class="btn btn-primary btn-generate" onclick="generateDocuments()">Generer CV & Lettre</button>
+            </div>
+        </section>
+
+        <!-- Step 6: Results -->
+        <section class="form-step" id="step-6">
+            <h2>Vos documents</h2>
+
+            <div class="results-tabs">
+                <button class="tab-btn active" onclick="switchTab('cv')">CV</button>
+                <button class="tab-btn" onclick="switchTab('letter')">Lettre de motivation</button>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn btn-primary" onclick="exportPDF('cv')">Telecharger CV en PDF</button>
+                <button class="btn btn-primary" onclick="exportPDF('letter')">Telecharger Lettre en PDF</button>
+                <button class="btn btn-outline" onclick="prevStep(5)">Modifier les informations</button>
+            </div>
+
+            <!-- CV Preview -->
+            <div class="document-preview" id="cv-preview-container">
+                <div class="a4-page" id="cv-output">
+                    <!-- CV content generated by JS -->
+                </div>
+            </div>
+
+            <!-- Cover Letter Preview -->
+            <div class="document-preview hidden" id="letter-preview-container">
+                <div class="a4-page" id="letter-output">
+                    <!-- Cover letter content generated by JS -->
+                </div>
+            </div>
+
+            <div class="ats-tips">
+                <h3>Conseils ATS</h3>
+                <div id="ats-keywords"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Finance CV & Cover Letter Generator &mdash; Optimise pour les ATS</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
