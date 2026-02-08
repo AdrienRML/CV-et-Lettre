@@ -143,7 +143,7 @@ function addLanguage() {
 function removeEntry(type, index) {
     const list = document.getElementById(`${type}-list`);
     const cards = list.querySelectorAll('.entry-card');
-    if (cards.length <= 1) return; // Keep at least one
+    if (cards.length <= 1) return;
     const card = list.querySelector(`.entry-card[data-index="${index}"]`);
     if (card) card.remove();
 }
@@ -212,7 +212,12 @@ function collectData() {
     // Job offer
     data.jobTitle = document.getElementById('jobTitle').value.trim();
     data.companyName = document.getElementById('companyName').value.trim();
+    data.jobDuration = document.getElementById('jobDuration').value.trim();
+    data.jobRef = document.getElementById('jobRef').value.trim();
+    data.letterLanguage = document.getElementById('letterLanguage').value;
+    data.recipientName = document.getElementById('recipientName').value.trim();
     data.jobOffer = document.getElementById('jobOffer').value.trim();
+    data.whyThisFirm = document.getElementById('whyThisFirm').value.trim();
     data.additionalNotes = document.getElementById('additionalNotes').value.trim();
 
     return data;
@@ -253,7 +258,6 @@ function extractKeywords(jobOffer) {
 
     const offerLower = jobOffer.toLowerCase();
     const found = [];
-    const notFound = [];
 
     financeKeywords.forEach(kw => {
         if (offerLower.includes(kw.toLowerCase())) {
@@ -261,7 +265,6 @@ function extractKeywords(jobOffer) {
         }
     });
 
-    // Deduplicate similar keywords
     const unique = [...new Set(found.map(k => k.toLowerCase()))];
     return unique.map(k => found.find(f => f.toLowerCase() === k));
 }
@@ -287,14 +290,14 @@ function generateCV(data, keywords) {
         educationHTML += `
             <div class="cv-entry">
                 <div class="cv-entry-header">
-                    <span class="cv-entry-title">${escapeHTML(edu.school)}</span>
-                    <span class="cv-entry-date">${escapeHTML(dateLine)}</span>
+                    <span class="cv-entry-title">${esc(edu.school)}</span>
+                    <span class="cv-entry-date">${esc(dateLine)}</span>
                 </div>
                 <div class="cv-entry-subtitle">
-                    <span>${escapeHTML(edu.degree)}${edu.field ? ', ' + escapeHTML(edu.field) : ''}</span>
-                    ${edu.gpa ? '<span>' + escapeHTML(edu.gpa) + '</span>' : ''}
+                    <span>${esc(edu.degree)}${edu.field ? ', ' + esc(edu.field) : ''}</span>
+                    ${edu.gpa ? '<span>' + esc(edu.gpa) + '</span>' : ''}
                 </div>
-                ${edu.details ? '<div style="font-size:9.5pt;margin-top:1pt;">' + escapeHTML(edu.details) + '</div>' : ''}
+                ${edu.details ? '<div style="font-size:8.5pt;margin-top:1pt;">' + esc(edu.details) + '</div>' : ''}
             </div>
         `;
     });
@@ -307,17 +310,17 @@ function generateCV(data, keywords) {
         let bulletsHTML = '';
         if (bullets.length > 0) {
             bulletsHTML = '<ul class="cv-bullets">' +
-                bullets.map(b => `<li>${escapeHTML(b.trim())}</li>`).join('') +
+                bullets.map(b => `<li>${esc(b.trim())}</li>`).join('') +
                 '</ul>';
         }
         experienceHTML += `
             <div class="cv-entry">
                 <div class="cv-entry-header">
-                    <span class="cv-entry-title">${escapeHTML(exp.company)}${exp.location ? ', ' + escapeHTML(exp.location) : ''}</span>
-                    <span class="cv-entry-date">${escapeHTML(dateLine)}</span>
+                    <span class="cv-entry-title">${esc(exp.company)}${exp.location ? ', ' + esc(exp.location) : ''}</span>
+                    <span class="cv-entry-date">${esc(dateLine)}</span>
                 </div>
                 <div class="cv-entry-subtitle">
-                    <span>${escapeHTML(exp.title)} (${escapeHTML(exp.type)})</span>
+                    <span>${esc(exp.title)} (${esc(exp.type)})</span>
                 </div>
                 ${bulletsHTML}
             </div>
@@ -327,19 +330,19 @@ function generateCV(data, keywords) {
     // Skills section
     let skillsHTML = '<div class="cv-inline-list">';
     if (data.technicalSkills) {
-        skillsHTML += `<div class="cv-inline-item"><span class="cv-inline-label">Logiciels & Outils : </span>${escapeHTML(data.technicalSkills)}</div>`;
+        skillsHTML += `<div class="cv-inline-item"><span class="cv-inline-label">Logiciels & Outils : </span>${esc(data.technicalSkills)}</div>`;
     }
     if (data.financeSkills) {
-        skillsHTML += `<div class="cv-inline-item"><span class="cv-inline-label">Competences Finance : </span>${escapeHTML(data.financeSkills)}</div>`;
+        skillsHTML += `<div class="cv-inline-item"><span class="cv-inline-label">Competences Finance : </span>${esc(data.financeSkills)}</div>`;
     }
     if (data.certifications) {
-        skillsHTML += `<div class="cv-inline-item"><span class="cv-inline-label">Certifications : </span>${escapeHTML(data.certifications)}</div>`;
+        skillsHTML += `<div class="cv-inline-item"><span class="cv-inline-label">Certifications : </span>${esc(data.certifications)}</div>`;
     }
     skillsHTML += '</div>';
 
     // Languages section
     let languagesHTML = '<div class="cv-inline-list"><div class="cv-inline-item">';
-    languagesHTML += data.languages.map(l => `${escapeHTML(l.name)} (${escapeHTML(l.level)})`).join(' <span class="sep">|</span> ');
+    languagesHTML += data.languages.map(l => `${esc(l.name)} (${esc(l.level)})`).join(' <span class="sep">|</span> ');
     languagesHTML += '</div></div>';
 
     // Interests section
@@ -347,14 +350,14 @@ function generateCV(data, keywords) {
     if (data.interests) {
         const lines = data.interests.split('\n').filter(l => l.trim());
         interestsHTML = '<div class="cv-inline-list">' +
-            lines.map(l => `<div class="cv-inline-item">${escapeHTML(l.trim())}</div>`).join('') +
+            lines.map(l => `<div class="cv-inline-item">${esc(l.trim())}</div>`).join('') +
             '</div>';
     }
 
     // Assemble CV
-    const cv = `
+    return `
         <div class="cv-header">
-            <div class="cv-name">${escapeHTML(fullName)}</div>
+            <div class="cv-name">${esc(fullName)}</div>
             <div class="cv-contact">${contactLine}</div>
         </div>
 
@@ -388,12 +391,10 @@ function generateCV(data, keywords) {
             ${interestsHTML}
         </div>` : ''}
     `;
-
-    return cv;
 }
 
-// ===== Cover Letter Generation =====
-function generateCoverLetter(data, keywords) {
+// ===== Cover Letter Generation — FR =====
+function generateCoverLetterFR(data, keywords) {
     const fullName = `${data.firstName} ${data.lastName}`;
     const today = new Date();
     const dateStr = today.toLocaleDateString('fr-FR', {
@@ -401,124 +402,231 @@ function generateCoverLetter(data, keywords) {
         month: 'long',
         year: 'numeric'
     });
-
-    // Determine the city from address
     const city = data.address ? data.address.split(',')[0].trim() : 'Paris';
 
-    // Build sender block
+    // Sender block (top-left): name, phone, email
     const senderLines = [fullName];
-    if (data.address) senderLines.push(data.address);
     if (data.phone) senderLines.push(data.phone);
     if (data.email) senderLines.push(data.email);
 
-    // Determine key elements for the letter
+    // Recipient block (top-right)
+    const recipientLines = [esc(data.companyName)];
+    if (data.recipientName) recipientLines.push(esc(data.recipientName));
+    recipientLines.push('Service Recrutement');
+
+    // Object line
+    let objectLine = '';
+    if (data.jobRef) {
+        objectLine = `Objet : Reponse a l'offre de ${esc(data.jobTitle)} ref. ${esc(data.jobRef)}`;
+    } else if (data.jobDuration) {
+        objectLine = `Objet : Candidature pour un ${esc(data.jobTitle)} pour une duree de ${esc(data.jobDuration)}`;
+    } else {
+        objectLine = `Objet : Candidature au poste de ${esc(data.jobTitle)}`;
+    }
+
+    // Build paragraphs — AlumnEye structure
     const latestEdu = data.education.length > 0 ? data.education[0] : null;
     const latestExp = data.experience.length > 0 ? data.experience[0] : null;
 
-    // Build education description
-    let eduDesc = '';
+    // P1: Intro — situation + interest
+    let introLine = '';
     if (latestEdu) {
-        eduDesc = `actuellement en ${latestEdu.degree}${latestEdu.field ? ' specialise(e) en ' + latestEdu.field : ''} a ${latestEdu.school}`;
+        introLine = `Actuellement ${latestEdu.degree}${latestEdu.field ? ' en ' + latestEdu.field : ''} a ${latestEdu.school}, je`;
+    } else {
+        introLine = 'Je';
+    }
+    const p1 = `${introLine} souhaite vous faire part de ma candidature pour le poste de ${esc(data.jobTitle)} au sein de ${esc(data.companyName)}.`;
+
+    // P2: Why this firm — specific, not generic
+    let p2 = '';
+    if (data.whyThisFirm) {
+        p2 = data.whyThisFirm;
+    } else {
+        p2 = `${esc(data.companyName)} se distingue par son positionnement unique dans le secteur. La qualite de ses equipes et l'envergure de ses operations constituent pour moi un environnement d'apprentissage et de contribution ideal. C'est pourquoi j'ai choisi de candidater specifiquement aupres de votre institution.`;
     }
 
-    // Build experience highlights
-    let expHighlights = '';
+    // P3: The candidate — experiences, skills, concrete examples
+    let p3Parts = [];
     if (latestExp) {
         const bullets = latestExp.description.split('\n').filter(b => b.trim());
-        const topBullets = bullets.slice(0, 2);
-        if (topBullets.length > 0) {
-            expHighlights = `Lors de mon experience chez ${latestExp.company} en tant que ${latestExp.title}, j'ai notamment ${topBullets[0].trim().toLowerCase()}`;
-            if (topBullets[1]) {
-                expHighlights += `, ainsi que ${topBullets[1].trim().toLowerCase()}`;
-            }
-            expHighlights += '.';
-        }
+        const topBullet = bullets.length > 0 ? bullets[0].trim().toLowerCase() : '';
+        p3Parts.push(`Mon experience chez ${esc(latestExp.company)} en tant que ${esc(latestExp.title)} m'a permis de developper des competences operationnelles solides${topBullet ? ', notamment en ayant ' + topBullet : ''}.`);
     }
-
-    // Build skills mention
-    const skillsList = [];
-    if (data.technicalSkills) skillsList.push(data.technicalSkills);
-    if (data.financeSkills) skillsList.push(data.financeSkills);
-    const skillsDesc = skillsList.length > 0 ?
-        `Je maitrise ${skillsList.join(', ')}` : '';
-
-    // Languages mention
-    const langDesc = data.languages.length > 0 ?
-        data.languages.map(l => `${l.name} (${l.level})`).join(' et ') : '';
-
-    // Generate paragraphs
-    const introParagraph = `${eduDesc ? 'Etudiant(e) ' + eduDesc + ', je' : 'Je'} me permets de vous adresser ma candidature pour le poste de ${data.jobTitle} au sein de ${data.companyName}. Votre entreprise represente pour moi une reference dans le secteur et cette opportunite correspond pleinement a mon projet professionnel.`;
-
-    let motivationParagraph = `Mon parcours academique m'a permis de developper de solides competences en finance et en analyse.`;
-    if (latestEdu && latestEdu.details) {
-        motivationParagraph += ` Au cours de ma formation, j'ai suivi des enseignements en ${latestEdu.details.substring(0, 120).toLowerCase()}, ce qui m'a donne une base solide pour aborder les problematiques auxquelles votre equipe fait face.`;
-    }
-
-    let experienceParagraph = '';
-    if (expHighlights) {
-        experienceParagraph = `${expHighlights} Cette experience m'a permis de developper mon sens de la rigueur, ma capacite d'analyse et mon aptitude a travailler sous pression dans un environnement exigeant.`;
-    }
-
-    // Additional experiences
     if (data.experience.length > 1) {
-        const otherExp = data.experience[1];
-        experienceParagraph += ` J'ai egalement eu l'opportunite de travailler chez ${otherExp.company} en tant que ${otherExp.title}, ce qui a renforce ma polyvalence et ma comprehension du secteur financier.`;
+        const exp2 = data.experience[1];
+        p3Parts.push(`J'ai egalement eu l'opportunite de travailler chez ${esc(exp2.company)} (${esc(exp2.title)}), ce qui a renforce ma comprehension du secteur et ma capacite a evoluer dans des environnements exigeants.`);
     }
-
-    let skillsParagraph = '';
-    if (skillsDesc || langDesc) {
-        skillsParagraph = `Sur le plan technique, ${skillsDesc ? skillsDesc.toLowerCase() + '.' : ''} ${langDesc ? 'Je parle ' + langDesc + ', ce qui me permet d\'evoluer dans un environnement international.' : ''}`;
+    if (latestEdu && latestEdu.details) {
+        p3Parts.push(`Ma formation m'a donne des bases solides en ${latestEdu.details.substring(0, 100).toLowerCase()}.`);
     }
+    if (data.technicalSkills) {
+        p3Parts.push(`Je maitrise ${esc(data.technicalSkills)}.`);
+    }
+    const langLine = data.languages.filter(l => l.name).map(l => `${l.name} (${l.level})`).join(', ');
+    if (langLine) {
+        p3Parts.push(`Je parle ${langLine}.`);
+    }
+    const p3 = p3Parts.join(' ');
 
-    const closingParagraph = `Convaincu(e) que mon profil correspond aux attentes de votre equipe, je serais ravi(e) de pouvoir echanger avec vous lors d'un entretien afin de vous presenter plus en detail ma motivation et mes competences. Je reste a votre entiere disposition pour toute information complementaire.`;
+    // P4: Fit — why this match works, closing
+    const p4 = `Convaincu que mon parcours et mes competences correspondent aux attentes de votre equipe, je serais ravi de pouvoir echanger avec vous lors d'un entretien. Je reste a votre entiere disposition et vous prie d'agreer, ${data.recipientName ? esc(data.recipientName) : 'Madame, Monsieur'}, l'expression de mes salutations distinguees.`;
 
-    const letter = `
-        <div class="letter-sender">
-            ${senderLines.map(l => escapeHTML(l)).join('<br>')}
+    return `
+        <div class="letter-header-fr">
+            <div class="letter-sender-fr">
+                ${senderLines.map(l => esc(l)).join('<br>')}
+            </div>
+            <div class="letter-recipient-fr">
+                ${recipientLines.join('<br>')}
+            </div>
         </div>
 
-        <div class="letter-recipient">
-            ${escapeHTML(data.companyName)}<br>
-            Service Recrutement
-        </div>
-
-        <div class="letter-date">
-            ${escapeHTML(city)}, le ${dateStr}
+        <div class="letter-date-fr">
+            ${esc(city)}, le ${dateStr}
         </div>
 
         <div class="letter-object">
-            Objet : Candidature au poste de ${escapeHTML(data.jobTitle)}
+            ${objectLine}
         </div>
 
         <div class="letter-salutation">
-            Madame, Monsieur,
+            ${data.recipientName ? esc(data.recipientName) + ',' : 'Madame, Monsieur,'}
         </div>
 
         <div class="letter-body">
-            <p>${introParagraph}</p>
-            <p>${motivationParagraph}</p>
-            ${experienceParagraph ? `<p>${experienceParagraph}</p>` : ''}
-            ${skillsParagraph ? `<p>${skillsParagraph}</p>` : ''}
-            <p>${closingParagraph}</p>
-        </div>
+            <p>${p1}</p>
 
-        <div class="letter-closing">
-            Je vous prie d'agreer, Madame, Monsieur, l'expression de mes salutations distinguees.
+            <p>${p2}</p>
+
+            <p>${p3}</p>
+
+            <p>${p4}</p>
         </div>
 
         <div class="letter-signature">
-            ${escapeHTML(fullName)}
+            ${esc(fullName)}
         </div>
     `;
+}
 
-    return letter;
+// ===== Cover Letter Generation — EN =====
+function generateCoverLetterEN(data, keywords) {
+    const fullName = `${data.firstName} ${data.lastName}`;
+    const today = new Date();
+    const dateStr = today.toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+
+    // Sender block (centered): name, email, phone
+    const senderLines = [fullName];
+    if (data.email) senderLines.push(data.email);
+    if (data.phone) senderLines.push(data.phone);
+
+    // Recipient block (left)
+    const recipientLines = [esc(data.companyName)];
+    if (data.recipientName) recipientLines.push(esc(data.recipientName));
+    if (data.address) recipientLines.push(esc(data.address));
+
+    // Subject line
+    let subjectLine = '';
+    if (data.jobRef) {
+        subjectLine = `Subject: Application to offer "${esc(data.jobTitle)}" ref. ${esc(data.jobRef)}`;
+    } else if (data.jobDuration) {
+        subjectLine = `Subject: Application for an internship as ${esc(data.jobTitle)} for ${esc(data.jobDuration)}`;
+    } else {
+        subjectLine = `Subject: Application for ${esc(data.jobTitle)} position`;
+    }
+
+    const latestEdu = data.education.length > 0 ? data.education[0] : null;
+    const latestExp = data.experience.length > 0 ? data.experience[0] : null;
+
+    // P1: Intro
+    let introLine = '';
+    if (latestEdu) {
+        introLine = `Currently pursuing a ${latestEdu.degree}${latestEdu.field ? ' in ' + latestEdu.field : ''} at ${latestEdu.school}, I`;
+    } else {
+        introLine = 'I';
+    }
+    const p1 = `${introLine} am writing to express my strong interest in the ${esc(data.jobTitle)} position at ${esc(data.companyName)}.`;
+
+    // P2: Why this firm
+    let p2 = '';
+    if (data.whyThisFirm) {
+        p2 = data.whyThisFirm;
+    } else {
+        p2 = `${esc(data.companyName)} stands out through its unique positioning in the industry. The quality of its teams and the scope of its operations represent an ideal environment for both learning and contributing. This is precisely why I have chosen to apply to your institution.`;
+    }
+
+    // P3: The candidate
+    let p3Parts = [];
+    if (latestExp) {
+        const bullets = latestExp.description.split('\n').filter(b => b.trim());
+        const topBullet = bullets.length > 0 ? bullets[0].trim().toLowerCase() : '';
+        p3Parts.push(`During my experience at ${esc(latestExp.company)} as ${esc(latestExp.title)}, I developed strong operational skills${topBullet ? ', including ' + topBullet : ''}.`);
+    }
+    if (data.experience.length > 1) {
+        const exp2 = data.experience[1];
+        p3Parts.push(`I also had the opportunity to work at ${esc(exp2.company)} (${esc(exp2.title)}), which strengthened my understanding of the sector.`);
+    }
+    if (data.technicalSkills) {
+        p3Parts.push(`I am proficient in ${esc(data.technicalSkills)}.`);
+    }
+    const langLine = data.languages.filter(l => l.name).map(l => `${l.name} (${l.level})`).join(', ');
+    if (langLine) {
+        p3Parts.push(`I speak ${langLine}.`);
+    }
+    const p3 = p3Parts.join(' ');
+
+    // P4: Closing
+    const p4 = `I am confident that my profile matches your team's expectations, and I would welcome the opportunity to discuss my application further in an interview. I remain at your disposal for any additional information.`;
+
+    return `
+        <div class="letter-sender-en">
+            ${senderLines.map(l => esc(l)).join('<br>')}
+        </div>
+
+        <div class="letter-recipient-en">
+            ${recipientLines.join('<br>')}
+        </div>
+
+        <div class="letter-date-en">
+            ${dateStr}
+        </div>
+
+        <div class="letter-object">
+            ${subjectLine}
+        </div>
+
+        <div class="letter-salutation">
+            ${data.recipientName ? 'Dear ' + esc(data.recipientName) + ',' : 'Dear Hiring Manager,'}
+        </div>
+
+        <div class="letter-body">
+            <p>${p1}</p>
+
+            <p>${p2}</p>
+
+            <p>${p3}</p>
+
+            <p>${p4}</p>
+        </div>
+
+        <div class="letter-closing">
+            Yours sincerely,
+        </div>
+
+        <div class="letter-signature">
+            ${esc(fullName)}
+        </div>
+    `;
 }
 
 // ===== Main Generation =====
 function generateDocuments() {
     const data = collectData();
 
-    // Basic validation
     if (!data.firstName || !data.lastName) {
         alert('Veuillez renseigner votre prenom et nom.');
         return;
@@ -528,21 +636,21 @@ function generateDocuments() {
         return;
     }
 
-    // Extract keywords
     const keywords = extractKeywords(data.jobOffer);
 
     // Generate CV
     const cvHTML = generateCV(data, keywords);
     document.getElementById('cv-output').innerHTML = cvHTML;
 
-    // Generate Cover Letter
-    const letterHTML = generateCoverLetter(data, keywords);
+    // Generate Cover Letter based on language
+    const letterHTML = data.letterLanguage === 'en'
+        ? generateCoverLetterEN(data, keywords)
+        : generateCoverLetterFR(data, keywords);
     document.getElementById('letter-output').innerHTML = letterHTML;
 
-    // Show ATS keywords analysis
+    // ATS analysis
     showATSAnalysis(data, keywords);
 
-    // Navigate to results
     nextStep(6);
 }
 
@@ -550,7 +658,6 @@ function generateDocuments() {
 function showATSAnalysis(data, keywords) {
     const container = document.getElementById('ats-keywords');
 
-    // Combine all user content
     const allUserContent = [
         data.technicalSkills, data.financeSkills, data.certifications,
         ...data.experience.map(e => e.description + ' ' + e.title),
@@ -565,7 +672,7 @@ function showATSAnalysis(data, keywords) {
     } else {
         keywords.forEach(kw => {
             const matched = allUserContent.includes(kw.toLowerCase());
-            html += `<span class="keyword-tag ${matched ? 'matched' : 'missing'}">${escapeHTML(kw)} ${matched ? '&#10003;' : '&#10007;'}</span>`;
+            html += `<span class="keyword-tag ${matched ? 'matched' : 'missing'}">${esc(kw)} ${matched ? '&#10003;' : '&#10007;'}</span>`;
         });
         html += '<p style="margin-top:0.75rem;font-size:0.8rem;color:#4a5568;"><strong>Vert</strong> = present dans votre profil | <strong>Rouge</strong> = absent - pensez a l\'ajouter si pertinent</p>';
     }
@@ -587,16 +694,36 @@ function switchTab(tab) {
     }
 }
 
-// ===== PDF Export =====
+// ===== PDF Export — fixed margins =====
 function exportPDF(type) {
     const element = type === 'cv'
         ? document.getElementById('cv-output')
         : document.getElementById('letter-output');
 
     const data = collectData();
+
+    // Clean company name for filename
+    const cleanCompany = data.companyName.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_');
+
     const filename = type === 'cv'
         ? `CV_${data.firstName}_${data.lastName}.pdf`
-        : `Lettre_${data.firstName}_${data.lastName}.pdf`;
+        : `Lettre_Motivation_${data.firstName}_${data.lastName}_${cleanCompany}.pdf`;
+
+    // Temporarily remove contenteditable outline
+    element.blur();
+
+    // Clone element for PDF to avoid capturing editability styles
+    const clone = element.cloneNode(true);
+    clone.removeAttribute('contenteditable');
+    clone.style.width = '210mm';
+    clone.style.minHeight = '297mm';
+    clone.style.maxHeight = '297mm';
+    clone.style.overflow = 'hidden';
+    clone.style.boxShadow = 'none';
+    clone.style.position = 'absolute';
+    clone.style.left = '-9999px';
+    clone.style.top = '0';
+    document.body.appendChild(clone);
 
     const opt = {
         margin: 0,
@@ -605,21 +732,28 @@ function exportPDF(type) {
         html2canvas: {
             scale: 2,
             useCORS: true,
-            letterRendering: true
+            letterRendering: true,
+            width: clone.scrollWidth,
+            height: Math.min(clone.scrollHeight, 1122), // A4 height in px at 96dpi
+            windowWidth: clone.scrollWidth
         },
         jsPDF: {
             unit: 'mm',
             format: 'a4',
             orientation: 'portrait'
         },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        pagebreak: { mode: ['avoid-all'] }
     };
 
-    html2pdf().set(opt).from(element).save();
+    html2pdf().set(opt).from(clone).save().then(() => {
+        document.body.removeChild(clone);
+    }).catch(() => {
+        document.body.removeChild(clone);
+    });
 }
 
 // ===== Utilities =====
-function escapeHTML(str) {
+function esc(str) {
     if (!str) return '';
     const div = document.createElement('div');
     div.textContent = str;
@@ -639,35 +773,24 @@ function restoreFromLocalStorage() {
     try {
         const data = JSON.parse(saved);
 
-        // Personal info
-        if (data.firstName) document.getElementById('firstName').value = data.firstName;
-        if (data.lastName) document.getElementById('lastName').value = data.lastName;
-        if (data.email) document.getElementById('email').value = data.email;
-        if (data.phone) document.getElementById('phone').value = data.phone;
-        if (data.address) document.getElementById('address').value = data.address;
-        if (data.linkedin) document.getElementById('linkedin').value = data.linkedin;
-        if (data.nationality) document.getElementById('nationality').value = data.nationality;
-        if (data.birthDate) document.getElementById('birthDate').value = data.birthDate;
-        if (data.drivingLicense) document.getElementById('drivingLicense').value = data.drivingLicense;
+        const fields = ['firstName', 'lastName', 'email', 'phone', 'address', 'linkedin',
+            'nationality', 'birthDate', 'drivingLicense', 'technicalSkills', 'certifications',
+            'financeSkills', 'interests', 'jobTitle', 'companyName', 'jobDuration', 'jobRef',
+            'letterLanguage', 'recipientName', 'jobOffer', 'whyThisFirm', 'additionalNotes'];
 
-        // Skills
-        if (data.technicalSkills) document.getElementById('technicalSkills').value = data.technicalSkills;
-        if (data.certifications) document.getElementById('certifications').value = data.certifications;
-        if (data.financeSkills) document.getElementById('financeSkills').value = data.financeSkills;
-        if (data.interests) document.getElementById('interests').value = data.interests;
-
-        // Job offer
-        if (data.jobTitle) document.getElementById('jobTitle').value = data.jobTitle;
-        if (data.companyName) document.getElementById('companyName').value = data.companyName;
-        if (data.jobOffer) document.getElementById('jobOffer').value = data.jobOffer;
-        if (data.additionalNotes) document.getElementById('additionalNotes').value = data.additionalNotes;
+        fields.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && data[id]) el.value = data[id];
+        });
     } catch (e) {
-        // Silently fail if data is corrupted
+        // Silently fail
     }
 }
 
 // Auto-save on input changes
-document.addEventListener('input', () => {
+document.addEventListener('input', (e) => {
+    // Don't save when editing the contenteditable preview
+    if (e.target.closest('.a4-page')) return;
     clearTimeout(window._saveTimeout);
     window._saveTimeout = setTimeout(saveToLocalStorage, 1000);
 });

@@ -153,6 +153,17 @@ main {
     border-bottom: 2px solid var(--primary-lighter);
 }
 
+/* === Edit hint === */
+.edit-hint {
+    background: #fffbeb;
+    border: 1px solid #f59e0b;
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    color: #92400e;
+    margin-bottom: 1rem;
+}
+
 /* === Form Grid === */
 .form-grid {
     display: grid;
@@ -417,92 +428,102 @@ main {
 .document-preview {
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    overflow: hidden;
-    background: #fff;
+    overflow: auto;
+    background: #e2e8f0;
     box-shadow: var(--shadow-md);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }
 
 .document-preview.hidden {
     display: none;
 }
 
-/* === A4 Page Preview === */
+/* === A4 Page — shared base for both CV and Letter === */
 .a4-page {
     width: 210mm;
     min-height: 297mm;
-    max-width: 100%;
-    padding: 15mm 18mm;
     background: white;
-    font-family: 'Times New Roman', 'Georgia', serif;
-    font-size: 10.5pt;
-    line-height: 1.35;
     color: #000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    position: relative;
+}
+
+.a4-page[contenteditable="true"]:focus {
+    outline: 2px dashed var(--primary);
+    outline-offset: 2px;
+}
+
+/* === CV Page === */
+.cv-page {
+    padding: 12mm 15mm 10mm 15mm;
+    font-family: 'Calibri', 'Arial', 'Helvetica Neue', sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.3;
 }
 
 /* === CV Styles === */
 .cv-header {
     text-align: center;
-    margin-bottom: 8pt;
-    padding-bottom: 6pt;
+    margin-bottom: 6pt;
+    padding-bottom: 5pt;
     border-bottom: 1.5pt solid #000;
 }
 
 .cv-name {
-    font-size: 18pt;
+    font-size: 16pt;
     font-weight: 700;
-    letter-spacing: 2pt;
+    letter-spacing: 1.5pt;
     text-transform: uppercase;
-    margin-bottom: 4pt;
+    margin-bottom: 3pt;
 }
 
 .cv-contact {
-    font-size: 9pt;
+    font-size: 8.5pt;
     color: #333;
-    line-height: 1.5;
-}
-
-.cv-contact span {
-    margin: 0 4pt;
+    line-height: 1.4;
 }
 
 .cv-contact .sep {
     color: #999;
+    margin: 0 2pt;
 }
 
 .cv-section {
-    margin-bottom: 6pt;
+    margin-bottom: 5pt;
 }
 
 .cv-section-title {
-    font-size: 11pt;
+    font-size: 10pt;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1pt;
+    letter-spacing: 0.8pt;
     border-bottom: 0.75pt solid #000;
-    padding-bottom: 2pt;
-    margin-bottom: 5pt;
+    padding-bottom: 1.5pt;
+    margin-bottom: 4pt;
     color: #000;
 }
 
 .cv-entry {
-    margin-bottom: 5pt;
+    margin-bottom: 4pt;
 }
 
 .cv-entry-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 1pt;
+    margin-bottom: 0.5pt;
 }
 
 .cv-entry-title {
     font-weight: 700;
-    font-size: 10.5pt;
+    font-size: 9.5pt;
 }
 
 .cv-entry-date {
     font-style: italic;
-    font-size: 9.5pt;
+    font-size: 8.5pt;
     color: #333;
     white-space: nowrap;
 }
@@ -511,25 +532,25 @@ main {
     display: flex;
     justify-content: space-between;
     font-style: italic;
-    font-size: 9.5pt;
+    font-size: 8.5pt;
     color: #333;
-    margin-bottom: 2pt;
+    margin-bottom: 1.5pt;
 }
 
 .cv-bullets {
-    padding-left: 14pt;
+    padding-left: 12pt;
     margin: 0;
 }
 
 .cv-bullets li {
-    font-size: 10pt;
-    margin-bottom: 1pt;
-    line-height: 1.3;
+    font-size: 9pt;
+    margin-bottom: 0.5pt;
+    line-height: 1.25;
 }
 
 .cv-inline-list {
-    font-size: 10pt;
-    line-height: 1.4;
+    font-size: 9pt;
+    line-height: 1.35;
 }
 
 .cv-inline-list .cv-inline-label {
@@ -537,31 +558,64 @@ main {
 }
 
 .cv-inline-item {
-    margin-bottom: 2pt;
+    margin-bottom: 1.5pt;
 }
 
-/* === Cover Letter Styles === */
-.letter-sender {
-    margin-bottom: 15pt;
-    line-height: 1.5;
+/* === Cover Letter Page === */
+.letter-page {
+    padding: 20mm 20mm 20mm 20mm;
+    font-family: 'Calibri', 'Arial', 'Helvetica Neue', sans-serif;
+    font-size: 11pt;
+    line-height: 1.4;
+}
+
+/* FR format: sender top-left, recipient top-right */
+.letter-header-fr {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14pt;
+}
+
+.letter-sender-fr {
     font-size: 10.5pt;
+    line-height: 1.6;
 }
 
-.letter-recipient {
+.letter-recipient-fr {
     text-align: right;
-    margin-bottom: 15pt;
-    line-height: 1.5;
     font-size: 10.5pt;
+    line-height: 1.6;
 }
 
-.letter-date {
+.letter-date-fr {
     text-align: right;
-    margin-bottom: 20pt;
+    margin-bottom: 14pt;
     font-size: 10.5pt;
 }
 
+/* EN format: sender centered top, recipient left below */
+.letter-sender-en {
+    text-align: center;
+    font-size: 10.5pt;
+    line-height: 1.5;
+    margin-bottom: 18pt;
+}
+
+.letter-recipient-en {
+    font-size: 10.5pt;
+    line-height: 1.6;
+    margin-bottom: 14pt;
+}
+
+.letter-date-en {
+    margin-bottom: 14pt;
+    font-size: 10.5pt;
+}
+
+/* Shared letter styles */
 .letter-object {
-    margin-bottom: 15pt;
+    margin-bottom: 14pt;
     font-weight: 700;
     font-size: 10.5pt;
 }
@@ -572,21 +626,21 @@ main {
 }
 
 .letter-body p {
-    text-indent: 2em;
-    margin-bottom: 8pt;
+    margin-bottom: 10pt;
     text-align: justify;
     font-size: 10.5pt;
     line-height: 1.5;
+    text-indent: 0;
 }
 
 .letter-closing {
-    margin-top: 15pt;
+    margin-top: 14pt;
     font-size: 10.5pt;
     line-height: 1.5;
 }
 
 .letter-signature {
-    margin-top: 25pt;
+    margin-top: 30pt;
     font-weight: 700;
     font-size: 10.5pt;
 }
@@ -651,13 +705,22 @@ footer {
         display: none;
     }
 
+    .document-preview {
+        padding: 10px;
+    }
+
     .a4-page {
-        padding: 8mm 10mm;
-        font-size: 9pt;
+        width: 100%;
+        min-height: auto;
+    }
+
+    .cv-page {
+        padding: 8mm 8mm 6mm 8mm;
+        font-size: 8pt;
     }
 
     .cv-name {
-        font-size: 14pt;
+        font-size: 13pt;
     }
 
     .results-actions {
@@ -674,11 +737,10 @@ footer {
     body {
         background: white;
     }
-    header, footer, .steps-indicator, .form-nav, .results-actions, .results-tabs, .ats-tips {
+    header, footer, .steps-indicator, .form-nav, .results-actions, .results-tabs, .ats-tips, .edit-hint {
         display: none;
     }
     .a4-page {
-        padding: 15mm 18mm;
         box-shadow: none;
     }
 }
