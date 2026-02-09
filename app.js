@@ -39,13 +39,13 @@ function toggleAuthMode(e) {
     e.preventDefault();
     authMode = authMode === 'login' ? 'register' : 'login';
     document.getElementById('auth-modal-title').textContent =
-        authMode === 'login' ? 'Se connecter' : 'Creer un compte';
+        authMode === 'login' ? 'Se connecter' : 'Créer un compte';
     document.getElementById('auth-submit-btn').textContent =
-        authMode === 'login' ? 'Se connecter' : 'Creer mon compte';
+        authMode === 'login' ? 'Se connecter' : 'Créer mon compte';
     document.getElementById('auth-toggle-text').textContent =
-        authMode === 'login' ? 'Pas encore de compte ?' : 'Deja un compte ?';
+        authMode === 'login' ? 'Pas encore de compte ?' : 'Déjà un compte ?';
     document.getElementById('auth-toggle-link').textContent =
-        authMode === 'login' ? 'Creer un compte' : 'Se connecter';
+        authMode === 'login' ? 'Créer un compte' : 'Se connecter';
     document.getElementById('auth-referral-group').style.display =
         authMode === 'register' ? 'block' : 'none';
     document.getElementById('auth-error').style.display = 'none';
@@ -64,7 +64,7 @@ async function submitAuth() {
     }
 
     if (authMode === 'register' && password.length < 6) {
-        errorEl.textContent = 'Le mot de passe doit contenir au moins 6 caracteres';
+        errorEl.textContent = 'Le mot de passe doit contenir au moins 6 caractères';
         errorEl.style.display = 'block';
         return;
     }
@@ -115,7 +115,7 @@ function updateAuthUI() {
     if (token && user) {
         headerAuth.innerHTML = `
             <span class="header-user">${user.email}</span>
-            <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);" onclick="logout()">Deconnexion</button>
+            <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);" onclick="logout()">Déconnexion</button>
         `;
         loadCredits();
     } else {
@@ -218,15 +218,15 @@ function addEducation() {
         </div>
         <div class="form-grid">
             <div class="form-group">
-                <label>Etablissement *</label>
+                <label>Établissement *</label>
                 <input type="text" class="edu-school" placeholder="HEC Paris, ESSEC, Dauphine...">
             </div>
             <div class="form-group">
-                <label>Diplome *</label>
+                <label>Diplôme *</label>
                 <input type="text" class="edu-degree" placeholder="Master en Finance">
             </div>
             <div class="form-group">
-                <label>Specialite</label>
+                <label>Spécialité</label>
                 <input type="text" class="edu-field" placeholder="Finance de marche">
             </div>
             <div class="form-group">
@@ -234,7 +234,7 @@ function addEducation() {
                 <input type="text" class="edu-gpa" placeholder="Mention Bien, 15.2/20">
             </div>
             <div class="form-group">
-                <label>Date debut</label>
+                <label>Date début</label>
                 <input type="text" class="edu-start" placeholder="Sept 2020">
             </div>
             <div class="form-group">
@@ -243,7 +243,7 @@ function addEducation() {
             </div>
             <div class="form-group full-width">
                 <label>Cours / details pertinents</label>
-                <textarea class="edu-details" rows="2" placeholder="Cours : Valorisation, M&A, Modelisation financiere..."></textarea>
+                <textarea class="edu-details" rows="2" placeholder="Cours : Valorisation, M&A, Modélisation financière..."></textarea>
             </div>
         </div>
     `;
@@ -258,7 +258,7 @@ function addExperience() {
     card.dataset.index = index;
     card.innerHTML = `
         <div class="entry-header">
-            <h3>Experience ${index + 1}</h3>
+            <h3>Expérience ${index + 1}</h3>
             <button class="btn-remove" onclick="removeEntry('experience', ${index})" title="Supprimer">&times;</button>
         </div>
         <div class="form-grid">
@@ -285,7 +285,7 @@ function addExperience() {
                 </select>
             </div>
             <div class="form-group">
-                <label>Date debut</label>
+                <label>Date début</label>
                 <input type="text" class="exp-start" placeholder="Jan 2023">
             </div>
             <div class="form-group">
@@ -294,7 +294,7 @@ function addExperience() {
             </div>
             <div class="form-group full-width">
                 <label>Description (une ligne par bullet point) *</label>
-                <textarea class="exp-description" rows="4" placeholder="Realisation de modeles de valorisation DCF..."></textarea>
+                <textarea class="exp-description" rows="4" placeholder="Réalisation de modèles de valorisation DCF..."></textarea>
             </div>
         </div>
     `;
@@ -310,9 +310,9 @@ function addLanguage() {
         <select class="lang-level">
             <option value="Langue maternelle">Langue maternelle</option>
             <option value="Courant (C1/C2)">Courant (C1/C2)</option>
-            <option value="Avance (B2)" selected>Avance (B2)</option>
-            <option value="Intermediaire (B1)">Intermediaire (B1)</option>
-            <option value="Debutant (A1/A2)">Debutant (A1/A2)</option>
+            <option value="Avancé (B2)" selected>Avancé (B2)</option>
+            <option value="Intermédiaire (B1)">Intermédiaire (B1)</option>
+            <option value="Débutant (A1/A2)">Débutant (A1/A2)</option>
         </select>
         <button class="btn-remove-inline" onclick="this.parentElement.remove()">&times;</button>
     `;
@@ -512,7 +512,7 @@ function generateCV(data, keywords) {
         skillsHTML += `<div class="cv-inline-item"><span class="cv-inline-label">Logiciels & Outils : </span>${esc(data.technicalSkills)}</div>`;
     }
     if (data.financeSkills) {
-        skillsHTML += `<div class="cv-inline-item"><span class="cv-inline-label">Competences Finance : </span>${esc(data.financeSkills)}</div>`;
+        skillsHTML += `<div class="cv-inline-item"><span class="cv-inline-label">Compétences Finance : </span>${esc(data.financeSkills)}</div>`;
     }
     if (data.certifications) {
         skillsHTML += `<div class="cv-inline-item"><span class="cv-inline-label">Certifications : </span>${esc(data.certifications)}</div>`;
@@ -548,13 +548,13 @@ function generateCV(data, keywords) {
 
         ${experienceHTML ? `
         <div class="cv-section">
-            <div class="cv-section-title">Experiences professionnelles</div>
+            <div class="cv-section-title">Expériences professionnelles</div>
             ${experienceHTML}
         </div>` : ''}
 
         ${data.technicalSkills || data.financeSkills || data.certifications ? `
         <div class="cv-section">
-            <div class="cv-section-title">Competences</div>
+            <div class="cv-section-title">Compétences</div>
             ${skillsHTML}
         </div>` : ''}
 
@@ -566,7 +566,7 @@ function generateCV(data, keywords) {
 
         ${data.interests ? `
         <div class="cv-section">
-            <div class="cv-section-title">Centres d'interet & activites</div>
+            <div class="cv-section-title">Centres d'intérêt & activités</div>
             ${interestsHTML}
         </div>` : ''}
     `;
@@ -596,9 +596,9 @@ function generateCoverLetterFR(data, keywords) {
     // Object line
     let objectLine = '';
     if (data.jobRef) {
-        objectLine = `Objet : Reponse a l'offre de ${esc(data.jobTitle)} ref. ${esc(data.jobRef)}`;
+        objectLine = `Objet : Réponse à l'offre de ${esc(data.jobTitle)} ref. ${esc(data.jobRef)}`;
     } else if (data.jobDuration) {
-        objectLine = `Objet : Candidature pour un ${esc(data.jobTitle)} pour une duree de ${esc(data.jobDuration)}`;
+        objectLine = `Objet : Candidature pour un ${esc(data.jobTitle)} pour une durée de ${esc(data.jobDuration)}`;
     } else {
         objectLine = `Objet : Candidature au poste de ${esc(data.jobTitle)}`;
     }
@@ -621,7 +621,7 @@ function generateCoverLetterFR(data, keywords) {
     if (data.whyThisFirm) {
         p2 = data.whyThisFirm;
     } else {
-        p2 = `${esc(data.companyName)} se distingue par son positionnement unique dans le secteur. La qualite de ses equipes et l'envergure de ses operations constituent pour moi un environnement d'apprentissage et de contribution ideal. C'est pourquoi j'ai choisi de candidater specifiquement aupres de votre institution.`;
+        p2 = `${esc(data.companyName)} se distingue par son positionnement unique dans le secteur. La qualité de ses équipes et l'envergure de ses opérations constituent pour moi un environnement d'apprentissage et de contribution idéal. C'est pourquoi j'ai choisi de candidater spécifiquement auprès de votre institution.`;
     }
 
     // P3: The candidate — experiences, skills, concrete examples
@@ -629,17 +629,17 @@ function generateCoverLetterFR(data, keywords) {
     if (latestExp) {
         const bullets = latestExp.description.split('\n').filter(b => b.trim());
         const topBullet = bullets.length > 0 ? bullets[0].trim().toLowerCase() : '';
-        p3Parts.push(`Mon experience chez ${esc(latestExp.company)} en tant que ${esc(latestExp.title)} m'a permis de developper des competences operationnelles solides${topBullet ? ', notamment en ayant ' + topBullet : ''}.`);
+        p3Parts.push(`Mon expérience chez ${esc(latestExp.company)} en tant que ${esc(latestExp.title)} m'a permis de développer des compétences opérationnelles solides${topBullet ? ', notamment en ayant ' + topBullet : ''}.`);
     }
     if (data.experience.length > 1) {
         const exp2 = data.experience[1];
-        p3Parts.push(`J'ai egalement eu l'opportunite de travailler chez ${esc(exp2.company)} (${esc(exp2.title)}), ce qui a renforce ma comprehension du secteur et ma capacite a evoluer dans des environnements exigeants.`);
+        p3Parts.push(`J'ai également eu l'opportunité de travailler chez ${esc(exp2.company)} (${esc(exp2.title)}), ce qui a renforcé ma compréhension du secteur et ma capacité à évoluer dans des environnements exigeants.`);
     }
     if (latestEdu && latestEdu.details) {
-        p3Parts.push(`Ma formation m'a donne des bases solides en ${latestEdu.details.substring(0, 100).toLowerCase()}.`);
+        p3Parts.push(`Ma formation m'a donné des bases solides en ${latestEdu.details.substring(0, 100).toLowerCase()}.`);
     }
     if (data.technicalSkills) {
-        p3Parts.push(`Je maitrise ${esc(data.technicalSkills)}.`);
+        p3Parts.push(`Je maîtrise ${esc(data.technicalSkills)}.`);
     }
     const langLine = data.languages.filter(l => l.name).map(l => `${l.name} (${l.level})`).join(', ');
     if (langLine) {
@@ -648,7 +648,7 @@ function generateCoverLetterFR(data, keywords) {
     const p3 = p3Parts.join(' ');
 
     // P4: Fit — why this match works, closing
-    const p4 = `Convaincu que mon parcours et mes competences correspondent aux attentes de votre equipe, je serais ravi de pouvoir echanger avec vous lors d'un entretien. Je reste a votre entiere disposition et vous prie d'agreer, ${data.recipientName ? esc(data.recipientName) : 'Madame, Monsieur'}, l'expression de mes salutations distinguees.`;
+    const p4 = `Convaincu que mon parcours et mes compétences correspondent aux attentes de votre équipe, je serais ravi de pouvoir échanger avec vous lors d'un entretien. Je reste à votre entière disposition et vous prie d'agréer, ${data.recipientName ? esc(data.recipientName) : 'Madame, Monsieur'}, l'expression de mes salutations distinguées.`;
 
     return `
         <div class="letter-header-fr">
@@ -829,7 +829,7 @@ async function generateDocuments() {
     const data = collectData();
 
     if (!data.firstName || !data.lastName) {
-        alert('Veuillez renseigner votre prenom et nom.');
+        alert('Veuillez renseigner votre prénom et nom.');
         return;
     }
     if (!data.jobTitle || !data.companyName) {
@@ -837,67 +837,71 @@ async function generateDocuments() {
         return;
     }
 
-    // Check auth — require login to generate letter
+    const keywords = extractKeywords(data.jobOffer);
+
+    // === CV is always FREE — generate immediately ===
+    const cvHTML = generateCV(data, keywords);
+    document.getElementById('cv-output').innerHTML = cvHTML;
+    showATSAnalysis(data, keywords);
+    nextStep(6);
+
+    // === Letter requires auth + credits ===
+    const letterOutput = document.getElementById('letter-output');
     const token = getToken();
+
+    // Not logged in → show login CTA in letter area
     if (!token) {
-        showAuthModal();
+        letterOutput.innerHTML = `
+            <div class="no-credits-banner">
+                <h3>Connectez-vous pour générer votre lettre</h3>
+                <p>Votre CV est prêt ! Pour générer une lettre de motivation personnalisée par IA, créez un compte gratuit (1 lettre offerte).</p>
+                <button class="btn btn-primary" onclick="showAuthModal()" style="margin-top:0.5rem;">Se connecter / Créer un compte</button>
+            </div>
+        `;
         return;
     }
 
     // Check and consume a credit
     const creditResult = await useCredit();
-    if (creditResult === 'needs_upgrade') {
-        // Show the CV anyway but block the letter
-        const keywords = extractKeywords(data.jobOffer);
-        const cvHTML = generateCV(data, keywords);
-        document.getElementById('cv-output').innerHTML = cvHTML;
-        showATSAnalysis(data, keywords);
-        nextStep(6);
 
-        document.getElementById('letter-output').innerHTML = `
+    if (creditResult === 'needs_upgrade') {
+        letterOutput.innerHTML = `
             <div class="no-credits-banner">
-                <h3>Plus de credits disponibles</h3>
-                <p>Votre CV est pret ! Pour generer une lettre de motivation par IA, ajoutez des credits.</p>
+                <h3>Plus de crédits disponibles</h3>
+                <p>Votre CV est prêt ! Pour générer une lettre de motivation par IA, ajoutez des crédits.</p>
                 <a href="pricing.html"><button class="btn btn-primary">Voir les offres</button></a>
+                <p style="margin-top:0.75rem;font-size:0.8rem;color:#78350f;">Pack 10 lettres à seulement 2€ — ou abonnement dès 6€/mois</p>
             </div>
         `;
         return;
     }
+
     if (creditResult === false) {
-        alert('Erreur lors de la verification des credits. Veuillez vous reconnecter.');
+        letterOutput.innerHTML = `
+            <div class="no-credits-banner">
+                <h3>Erreur de connexion</h3>
+                <p>Impossible de vérifier vos crédits. Veuillez vous reconnecter.</p>
+                <button class="btn btn-primary" onclick="logout();showAuthModal();" style="margin-top:0.5rem;">Se reconnecter</button>
+            </div>
+        `;
         return;
     }
 
-    // Resolve language: auto-detect or forced
+    // Credit consumed — generate letter via AI
     let resolvedLanguage = data.letterLanguage;
     if (resolvedLanguage === 'auto') {
         resolvedLanguage = detectLanguage(data.jobOffer);
     }
 
-    const keywords = extractKeywords(data.jobOffer);
-
-    // Generate CV (instant, client-side)
-    const cvHTML = generateCV(data, keywords);
-    document.getElementById('cv-output').innerHTML = cvHTML;
-
-    // ATS analysis
-    showATSAnalysis(data, keywords);
-
-    // Navigate to results immediately — CV is ready
-    nextStep(6);
-
-    // Show loading state for the letter
-    const letterOutput = document.getElementById('letter-output');
-    const langLabel = resolvedLanguage === 'en' ? 'English' : 'Francais';
+    const langLabel = resolvedLanguage === 'en' ? 'English' : 'Français';
     letterOutput.innerHTML = `
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;padding:40px;font-family:Calibri,Arial,sans-serif;">
             <div class="spinner"></div>
-            <p style="margin-top:16px;font-size:12pt;color:#4a5568;">Generation de la lettre de motivation par IA en cours...</p>
-            <p style="font-size:10pt;color:#718096;margin-top:6px;">Langue detectee : ${langLabel} — Analyse de l'offre et personnalisation (~15 secondes)</p>
+            <p style="margin-top:16px;font-size:12pt;color:#4a5568;">Génération de la lettre de motivation par IA en cours...</p>
+            <p style="font-size:10pt;color:#718096;margin-top:6px;">Langue détectée : ${langLabel} — Analyse de l'offre et personnalisation (~15 secondes)</p>
         </div>
     `;
 
-    // Build candidate and offer objects for the API
     const candidat = {
         firstName: data.firstName,
         lastName: data.lastName,
@@ -930,7 +934,7 @@ async function generateDocuments() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getToken()
+                'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify({
                 candidat,
@@ -955,10 +959,9 @@ async function generateDocuments() {
             : generateCoverLetterFR(data, keywords);
         letterOutput.innerHTML = fallbackHTML;
 
-        // Show error notice
         const notice = document.createElement('div');
         notice.style.cssText = 'background:#fef3c7;border:1px solid #f59e0b;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:9pt;color:#92400e;font-family:Calibri,Arial,sans-serif;';
-        notice.textContent = 'La generation IA a echoue (' + error.message + '). Lettre generee en mode template. Vous pouvez la modifier directement.';
+        notice.textContent = 'La génération IA a échoué (' + error.message + '). Lettre générée en mode template. Vous pouvez la modifier directement.';
         letterOutput.insertBefore(notice, letterOutput.firstChild);
     }
 }
@@ -974,16 +977,16 @@ function showATSAnalysis(data, keywords) {
         data.interests
     ].join(' ').toLowerCase();
 
-    let html = '<p style="margin-bottom:0.5rem;font-size:0.85rem;">Mots-cles detectes dans l\'offre et leur presence dans votre profil :</p>';
+    let html = '<p style="margin-bottom:0.5rem;font-size:0.85rem;">Mots-clés détectés dans l\'offre et leur présence dans votre profil :</p>';
 
     if (keywords.length === 0) {
-        html += '<p style="font-size:0.85rem;color:#718096;">Aucun mot-cle specifique detecte. Assurez-vous de coller le texte complet de l\'offre.</p>';
+        html += '<p style="font-size:0.85rem;color:#718096;">Aucun mot-clé spécifique détecté. Assurez-vous de coller le texte complet de l\'offre.</p>';
     } else {
         keywords.forEach(kw => {
             const matched = allUserContent.includes(kw.toLowerCase());
             html += `<span class="keyword-tag ${matched ? 'matched' : 'missing'}">${esc(kw)} ${matched ? '&#10003;' : '&#10007;'}</span>`;
         });
-        html += '<p style="margin-top:0.75rem;font-size:0.8rem;color:#4a5568;"><strong>Vert</strong> = present dans votre profil | <strong>Rouge</strong> = absent - pensez a l\'ajouter si pertinent</p>';
+        html += '<p style="margin-top:0.75rem;font-size:0.8rem;color:#4a5568;"><strong>Vert</strong> = présent dans votre profil | <strong>Rouge</strong> = absent - pensez à l\'ajouter si pertinent</p>';
     }
 
     container.innerHTML = html;

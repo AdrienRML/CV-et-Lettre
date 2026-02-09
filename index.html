@@ -16,7 +16,7 @@
                     <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);" onclick="showAuthModal()">Se connecter</button>
                 </div>
             </div>
-            <p class="subtitle">Generez un CV et une lettre de motivation optimises ATS pour la finance</p>
+            <p class="subtitle">Générez un CV et une lettre de motivation optimisés ATS pour la finance</p>
         </div>
     </header>
 
@@ -41,7 +41,7 @@
             <button class="btn btn-primary" style="width:100%;margin-bottom:0.75rem;" id="auth-submit-btn" onclick="submitAuth()">Se connecter</button>
             <p style="text-align:center;font-size:0.85rem;color:var(--text-light);">
                 <span id="auth-toggle-text">Pas encore de compte ?</span>
-                <a href="#" id="auth-toggle-link" onclick="toggleAuthMode(event)" style="color:var(--primary);font-weight:600;">Creer un compte</a>
+                <a href="#" id="auth-toggle-link" onclick="toggleAuthMode(event)" style="color:var(--primary);font-weight:600;">Créer un compte</a>
             </p>
         </div>
     </div>
@@ -70,12 +70,12 @@
             <div class="step-line"></div>
             <div class="step" data-step="3">
                 <span class="step-number">3</span>
-                <span class="step-label">Experiences</span>
+                <span class="step-label">Expériences</span>
             </div>
             <div class="step-line"></div>
             <div class="step" data-step="4">
                 <span class="step-number">4</span>
-                <span class="step-label">Competences</span>
+                <span class="step-label">Compétences</span>
             </div>
             <div class="step-line"></div>
             <div class="step" data-step="5">
@@ -85,7 +85,7 @@
             <div class="step-line"></div>
             <div class="step" data-step="6">
                 <span class="step-number">6</span>
-                <span class="step-label">Resultats</span>
+                <span class="step-label">Résultats</span>
             </div>
         </div>
 
@@ -94,7 +94,7 @@
             <h2>Informations personnelles</h2>
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="firstName">Prenom *</label>
+                    <label for="firstName">Prénom *</label>
                     <input type="text" id="firstName" required placeholder="Jean">
                 </div>
                 <div class="form-group">
@@ -106,7 +106,7 @@
                     <input type="email" id="email" required placeholder="jean.dupont@email.com">
                 </div>
                 <div class="form-group">
-                    <label for="phone">Telephone *</label>
+                    <label for="phone">Téléphone *</label>
                     <input type="tel" id="phone" required placeholder="+33 6 12 34 56 78">
                 </div>
                 <div class="form-group">
@@ -118,8 +118,8 @@
                     <input type="text" id="linkedin" placeholder="linkedin.com/in/jeandupont">
                 </div>
                 <div class="form-group">
-                    <label for="nationality">Nationalite</label>
-                    <input type="text" id="nationality" placeholder="Francaise">
+                    <label for="nationality">Nationalité</label>
+                    <input type="text" id="nationality" placeholder="Française">
                 </div>
                 <div class="form-group">
                     <label for="birthDate">Date de naissance</label>
@@ -147,23 +147,23 @@
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Etablissement *</label>
+                            <label>Établissement *</label>
                             <input type="text" class="edu-school" placeholder="HEC Paris, ESSEC, Dauphine...">
                         </div>
                         <div class="form-group">
-                            <label>Diplome *</label>
+                            <label>Diplôme *</label>
                             <input type="text" class="edu-degree" placeholder="Master en Finance">
                         </div>
                         <div class="form-group">
-                            <label>Specialite</label>
-                            <input type="text" class="edu-field" placeholder="Finance de marche">
+                            <label>Spécialité</label>
+                            <input type="text" class="edu-field" placeholder="Finance de marché">
                         </div>
                         <div class="form-group">
                             <label>GPA / Mention</label>
                             <input type="text" class="edu-gpa" placeholder="Mention Bien, 15.2/20">
                         </div>
                         <div class="form-group">
-                            <label>Date debut</label>
+                            <label>Date début</label>
                             <input type="text" class="edu-start" placeholder="Sept 2020">
                         </div>
                         <div class="form-group">
@@ -172,25 +172,25 @@
                         </div>
                         <div class="form-group full-width">
                             <label>Cours / details pertinents</label>
-                            <textarea class="edu-details" rows="2" placeholder="Cours : Valorisation d'entreprise, Fusions-Acquisitions, Modelisation financiere..."></textarea>
+                            <textarea class="edu-details" rows="2" placeholder="Cours : Valorisation d'entreprise, Fusions-Acquisitions, Modélisation financière..."></textarea>
                         </div>
                     </div>
                 </div>
             </div>
             <button class="btn btn-secondary" onclick="addEducation()">+ Ajouter une formation</button>
             <div class="form-nav">
-                <button class="btn btn-outline" onclick="prevStep(1)">Precedent</button>
+                <button class="btn btn-outline" onclick="prevStep(1)">Précédent</button>
                 <button class="btn btn-primary" onclick="nextStep(3)">Suivant</button>
             </div>
         </section>
 
         <!-- Step 3: Experience -->
         <section class="form-step" id="step-3">
-            <h2>Experiences professionnelles</h2>
+            <h2>Expériences professionnelles</h2>
             <div id="experience-list">
                 <div class="entry-card" data-index="0">
                     <div class="entry-header">
-                        <h3>Experience 1</h3>
+                        <h3>Expérience 1</h3>
                         <button class="btn-remove" onclick="removeEntry('experience', 0)" title="Supprimer">&times;</button>
                     </div>
                     <div class="form-grid">
@@ -217,7 +217,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Date debut</label>
+                            <label>Date début</label>
                             <input type="text" class="exp-start" placeholder="Jan 2023">
                         </div>
                         <div class="form-group">
@@ -226,26 +226,26 @@
                         </div>
                         <div class="form-group full-width">
                             <label>Description (une ligne par bullet point) *</label>
-                            <textarea class="exp-description" rows="4" placeholder="Realisation de modeles de valorisation DCF pour des transactions de +500M EUR
-Preparation de pitch books et memos d'investissement pour le comite
-Analyse de donnees financieres sur Bloomberg et Capital IQ"></textarea>
+                            <textarea class="exp-description" rows="4" placeholder="Réalisation de modèles de valorisation DCF pour des transactions de +500M EUR
+Préparation de pitch books et mémos d'investissement pour le comité
+Analyse de données financières sur Bloomberg et Capital IQ"></textarea>
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="btn btn-secondary" onclick="addExperience()">+ Ajouter une experience</button>
+            <button class="btn btn-secondary" onclick="addExperience()">+ Ajouter une expérience</button>
             <div class="form-nav">
-                <button class="btn btn-outline" onclick="prevStep(2)">Precedent</button>
+                <button class="btn btn-outline" onclick="prevStep(2)">Précédent</button>
                 <button class="btn btn-primary" onclick="nextStep(4)">Suivant</button>
             </div>
         </section>
 
         <!-- Step 4: Skills, Languages, Interests -->
         <section class="form-step" id="step-4">
-            <h2>Competences, Langues & Centres d'interet</h2>
+            <h2>Compétences, Langues & Centres d'intérêt</h2>
 
             <div class="subsection">
-                <h3>Competences techniques</h3>
+                <h3>Compétences techniques</h3>
                 <div class="form-grid">
                     <div class="form-group full-width">
                         <label>Logiciels & outils</label>
@@ -256,8 +256,8 @@ Analyse de donnees financieres sur Bloomberg et Capital IQ"></textarea>
                         <input type="text" id="certifications" placeholder="CFA Level I, AMF, Bloomberg Market Concepts">
                     </div>
                     <div class="form-group full-width">
-                        <label>Modelisation / Competences finance</label>
-                        <input type="text" id="financeSkills" placeholder="DCF, LBO, Comps, Accretion/Dilution, Modelisation financiere">
+                        <label>Modélisation / Compétences finance</label>
+                        <input type="text" id="financeSkills" placeholder="DCF, LBO, Comps, Accretion/Dilution, Modélisation financière">
                     </div>
                 </div>
             </div>
@@ -270,9 +270,9 @@ Analyse de donnees financieres sur Bloomberg et Capital IQ"></textarea>
                         <select class="lang-level">
                             <option value="Langue maternelle">Langue maternelle</option>
                             <option value="Courant (C1/C2)">Courant (C1/C2)</option>
-                            <option value="Avance (B2)">Avance (B2)</option>
-                            <option value="Intermediaire (B1)">Intermediaire (B1)</option>
-                            <option value="Debutant (A1/A2)">Debutant (A1/A2)</option>
+                            <option value="Avancé (B2)">Avancé (B2)</option>
+                            <option value="Intermédiaire (B1)">Intermédiaire (B1)</option>
+                            <option value="Débutant (A1/A2)">Débutant (A1/A2)</option>
                         </select>
                         <button class="btn-remove-inline" onclick="this.parentElement.remove()">&times;</button>
                     </div>
@@ -281,9 +281,9 @@ Analyse de donnees financieres sur Bloomberg et Capital IQ"></textarea>
                         <select class="lang-level">
                             <option value="Langue maternelle">Langue maternelle</option>
                             <option value="Courant (C1/C2)" selected>Courant (C1/C2)</option>
-                            <option value="Avance (B2)">Avance (B2)</option>
-                            <option value="Intermediaire (B1)">Intermediaire (B1)</option>
-                            <option value="Debutant (A1/A2)">Debutant (A1/A2)</option>
+                            <option value="Avancé (B2)">Avancé (B2)</option>
+                            <option value="Intermédiaire (B1)">Intermédiaire (B1)</option>
+                            <option value="Débutant (A1/A2)">Débutant (A1/A2)</option>
                         </select>
                         <button class="btn-remove-inline" onclick="this.parentElement.remove()">&times;</button>
                     </div>
@@ -292,17 +292,17 @@ Analyse de donnees financieres sur Bloomberg et Capital IQ"></textarea>
             </div>
 
             <div class="subsection">
-                <h3>Centres d'interet</h3>
+                <h3>Centres d'intérêt</h3>
                 <div class="form-group full-width">
-                    <label>Interets & activites extra-professionnelles</label>
+                    <label>Intérêts & activités extra-professionnelles</label>
                     <textarea id="interests" rows="3" placeholder="Sport : Tennis (classement 15/2), Marathon de Paris 2023 (3h45)
-Associatif : Tresorier du club Finance de l'ESSEC
-Autres : Lecture (marches financiers, geopolitique), Voyages (15 pays)"></textarea>
+Associatif : Trésorier du club Finance de l'ESSEC
+Autres : Lecture (marchés financiers, géopolitique), Voyages (15 pays)"></textarea>
                 </div>
             </div>
 
             <div class="form-nav">
-                <button class="btn btn-outline" onclick="prevStep(3)">Precedent</button>
+                <button class="btn btn-outline" onclick="prevStep(3)">Précédent</button>
                 <button class="btn btn-primary" onclick="nextStep(5)">Suivant</button>
             </div>
         </section>
@@ -310,10 +310,10 @@ Autres : Lecture (marches financiers, geopolitique), Voyages (15 pays)"></textar
         <!-- Step 5: Job Offer -->
         <section class="form-step" id="step-5">
             <h2>Offre d'emploi cible</h2>
-            <p class="form-help">Collez l'offre d'emploi complete ci-dessous. Le generateur analysera les mots-cles pour optimiser votre CV et lettre de motivation pour l'ATS.</p>
+            <p class="form-help">Collez l'offre d'emploi complète ci-dessous. Le générateur analysera les mots-clés pour optimiser votre CV et lettre de motivation pour l'ATS.</p>
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="jobTitle">Intitule du poste *</label>
+                    <label for="jobTitle">Intitulé du poste *</label>
                     <input type="text" id="jobTitle" placeholder="Analyste M&A - Stage 6 mois">
                 </div>
                 <div class="form-group">
@@ -321,18 +321,18 @@ Autres : Lecture (marches financiers, geopolitique), Voyages (15 pays)"></textar
                     <input type="text" id="companyName" placeholder="Rothschild & Co">
                 </div>
                 <div class="form-group">
-                    <label for="jobDuration">Duree / Periode</label>
-                    <input type="text" id="jobDuration" placeholder="6 mois, de janvier a juin 2026">
+                    <label for="jobDuration">Durée / Période</label>
+                    <input type="text" id="jobDuration" placeholder="6 mois, de janvier à juin 2026">
                 </div>
                 <div class="form-group">
-                    <label for="jobRef">Reference de l'offre</label>
+                    <label for="jobRef">Référence de l'offre</label>
                     <input type="text" id="jobRef" placeholder="REF-2026-MA-001">
                 </div>
                 <div class="form-group">
                     <label for="letterLanguage">Langue de la lettre</label>
                     <select id="letterLanguage">
-                        <option value="auto">Auto (detectee depuis l'offre)</option>
-                        <option value="fr">Forcer Francais</option>
+                        <option value="auto">Auto (détectée depuis l'offre)</option>
+                        <option value="fr">Forcer Français</option>
                         <option value="en">Forcer English</option>
                     </select>
                 </div>
@@ -346,40 +346,40 @@ Autres : Lecture (marches financiers, geopolitique), Voyages (15 pays)"></textar
                 <textarea id="jobOffer" rows="12" placeholder="Collez ici le texte complet de l'offre d'emploi...
 
 Exemple :
-Nous recherchons un(e) stagiaire analyste pour rejoindre notre equipe M&A a Paris...
+Nous recherchons un(e) stagiaire analyste pour rejoindre notre équipe M&A à Paris...
 
-Profil recherche :
-- Formation Bac+5 en finance (Grande Ecole de Commerce ou Master Finance)
-- Excellentes competences analytiques
-- Maitrise d'Excel et PowerPoint
+Profil recherché :
+- Formation Bac+5 en finance (Grande École de Commerce ou Master Finance)
+- Excellentes compétences analytiques
+- Maîtrise d'Excel et PowerPoint
 - Anglais courant
 ..."></textarea>
             </div>
             <div class="form-group full-width">
                 <label for="whyThisFirm">Pourquoi cette entreprise ? (optionnel, enrichit la lettre)</label>
-                <textarea id="whyThisFirm" rows="3" placeholder="Ex: J'ai rencontre X lors du forum Y, la banque est leader en M&A mid-cap en Europe, deal recent Z m'a interesse..."></textarea>
+                <textarea id="whyThisFirm" rows="3" placeholder="Ex: J'ai rencontré X lors du forum Y, la banque est leader en M&amp;A mid-cap en Europe, deal récent Z m'a intéressé..."></textarea>
             </div>
             <div class="form-group full-width">
                 <label for="additionalNotes">Parlez de vous — tout ce qui peut enrichir la lettre</label>
-                <textarea id="additionalNotes" rows="6" placeholder="Donnez ici TOUTES les informations personnelles qui peuvent aider a rediger votre lettre. Plus vous en donnez, meilleure sera la lettre. Exemples :
+                <textarea id="additionalNotes" rows="6" placeholder="Donnez ici TOUTES les informations personnelles qui peuvent aider à rédiger votre lettre. Plus vous en donnez, meilleure sera la lettre. Exemples :
 
 - Pourquoi la finance / le conseil ? Quel est votre projet professionnel ?
-- Qualites personnelles : rigoureux, esprit d'equipe, resilient...
-- Experiences marquantes : projet associatif, competition, entrepreneuriat...
-- Rencontres / networking : 'J'ai echange avec X chez Y lors du forum Z'
-- Disponibilites : 'Disponible de janvier a juillet 2026'
-- Tout autre element personnel que vous voulez mettre en avant"></textarea>
+- Qualités personnelles : rigoureux, esprit d'équipe, résilient...
+- Expériences marquantes : projet associatif, compétition, entrepreneuriat...
+- Rencontres / networking : 'J'ai échangé avec X chez Y lors du forum Z'
+- Disponibilités : 'Disponible de janvier à juillet 2026'
+- Tout autre élément personnel que vous voulez mettre en avant"></textarea>
             </div>
             <div class="form-nav">
-                <button class="btn btn-outline" onclick="prevStep(4)">Precedent</button>
-                <button class="btn btn-primary btn-generate" onclick="generateDocuments()">Generer CV & Lettre</button>
+                <button class="btn btn-outline" onclick="prevStep(4)">Précédent</button>
+                <button class="btn btn-primary btn-generate" onclick="generateDocuments()">Générer CV & Lettre</button>
             </div>
         </section>
 
         <!-- Step 6: Results -->
         <section class="form-step" id="step-6">
             <h2>Vos documents</h2>
-            <p class="edit-hint">Cliquez directement sur le texte du CV ou de la lettre pour le modifier avant de telecharger.</p>
+            <p class="edit-hint">Cliquez directement sur le texte du CV ou de la lettre pour le modifier avant de télécharger.</p>
 
             <div class="results-tabs">
                 <button class="tab-btn active" onclick="switchTab('cv')">CV</button>
@@ -387,8 +387,8 @@ Profil recherche :
             </div>
 
             <div class="results-actions">
-                <button class="btn btn-primary" onclick="exportPDF('cv')">Telecharger CV en PDF</button>
-                <button class="btn btn-primary" onclick="exportPDF('letter')">Telecharger Lettre en PDF</button>
+                <button class="btn btn-primary" onclick="exportPDF('cv')">Télécharger CV en PDF</button>
+                <button class="btn btn-primary" onclick="exportPDF('letter')">Télécharger Lettre en PDF</button>
                 <button class="btn btn-outline" onclick="prevStep(5)">Modifier les informations</button>
             </div>
 
@@ -414,7 +414,7 @@ Profil recherche :
     </main>
 
     <footer>
-        <p>Finance CV & Cover Letter Generator &mdash; Optimise pour les ATS</p>
+        <p>Finance CV & Cover Letter Generator &mdash; Optimisé pour les ATS</p>
     </footer>
 
     <script src="app.js"></script>

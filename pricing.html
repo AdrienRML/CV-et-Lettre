@@ -217,18 +217,18 @@
     </header>
 
     <main style="max-width:960px;margin:0 auto;padding:0 1rem 3rem;">
-        <a href="index.html" class="back-link">← Retour au generateur</a>
+        <a href="index.html" class="back-link">← Retour au générateur</a>
 
         <div class="success-banner" id="success-banner">
-            Paiement reussi ! Vos credits ont ete ajoutes. <a href="index.html">Generer une lettre</a>
+            Paiement réussi ! Vos crédits ont été ajoutés. <a href="index.html">Générer une lettre</a>
         </div>
         <div class="cancel-banner" id="cancel-banner">
-            Paiement annule. Vous pouvez reessayer quand vous voulez.
+            Paiement annulé. Vous pouvez réessayer quand vous voulez.
         </div>
 
         <div class="pricing-hero">
-            <h2>Generez des CV gratuits, des lettres d'exception</h2>
-            <p>CV finance illimite et gratuit. Lettres de motivation generees par IA Claude.</p>
+            <h2>Générez des CV gratuits, des lettres d'exception</h2>
+            <p>CV finance illimité et gratuit. Lettres de motivation générées par IA Claude.</p>
         </div>
 
         <div class="pricing-grid">
@@ -236,9 +236,9 @@
             <div class="pricing-card">
                 <h3>Gratuit</h3>
                 <div class="pricing-price">0€</div>
-                <div class="pricing-desc">Pour decouvrir</div>
+                <div class="pricing-desc">Pour découvrir</div>
                 <ul class="pricing-features">
-                    <li>CV finance illimite</li>
+                    <li>CV finance illimité</li>
                     <li>1 lettre IA offerte</li>
                     <li>Export PDF</li>
                     <li>Analyse ATS</li>
@@ -253,11 +253,11 @@
                 <div class="pricing-price">6€ <span>/ mois</span></div>
                 <div class="pricing-desc">100 lettres / mois</div>
                 <ul class="pricing-features">
-                    <li>CV finance illimite</li>
+                    <li>CV finance illimité</li>
                     <li>100 lettres IA / mois</li>
                     <li>Export PDF</li>
                     <li>Analyse ATS</li>
-                    <li>Detection langue auto</li>
+                    <li>Détection langue auto</li>
                 </ul>
                 <button class="pricing-btn pricing-btn-primary" onclick="subscribe('monthly')">S'abonner</button>
             </div>
@@ -266,13 +266,13 @@
             <div class="pricing-card">
                 <h3>Annuel</h3>
                 <div class="pricing-price">40€ <span>/ an</span></div>
-                <div class="pricing-desc">1000 lettres / an — 44% d'economie</div>
+                <div class="pricing-desc">1000 lettres / an — 44% d'économie</div>
                 <ul class="pricing-features">
-                    <li>CV finance illimite</li>
+                    <li>CV finance illimité</li>
                     <li>1000 lettres IA / an</li>
                     <li>Export PDF</li>
                     <li>Analyse ATS</li>
-                    <li>Detection langue auto</li>
+                    <li>Détection langue auto</li>
                 </ul>
                 <button class="pricing-btn pricing-btn-primary" onclick="subscribe('annual')">S'abonner</button>
             </div>
@@ -283,7 +283,7 @@
                 <div class="pricing-price">2€</div>
                 <div class="pricing-desc">Sans abonnement</div>
                 <ul class="pricing-features">
-                    <li>CV finance illimite</li>
+                    <li>CV finance illimité</li>
                     <li>10 lettres IA</li>
                     <li>Pas d'expiration</li>
                     <li>Export PDF</li>
@@ -294,7 +294,7 @@
         </div>
 
         <div class="pricing-note">
-            Le CV est toujours 100% gratuit et illimite. Seules les lettres de motivation generees par IA utilisent des credits.
+            Le CV est toujours 100% gratuit et illimité. Seules les lettres de motivation générées par IA utilisent des crédits.
         </div>
 
         <!-- Referral Section -->
@@ -305,7 +305,7 @@
                 <input type="text" id="referral-code-display" readonly value="—">
                 <button onclick="copyReferralCode()">Copier</button>
             </div>
-            <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--text-lighter);">Partagez ce code. Votre ami le saisit a l'inscription.</p>
+            <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--text-lighter);">Partagez ce code. Votre ami le saisit à l'inscription.</p>
         </div>
     </main>
 
@@ -352,7 +352,7 @@
             if (code && code !== '—') {
                 navigator.clipboard.writeText(code);
                 const btn = document.querySelector('.referral-code-box button');
-                btn.textContent = 'Copie !';
+                btn.textContent = 'Copié !';
                 setTimeout(() => btn.textContent = 'Copier', 2000);
             }
         }
@@ -360,7 +360,7 @@
         async function subscribe(planId) {
             const token = getToken();
             if (!token) {
-                alert('Vous devez vous connecter avant de souscrire. Retournez sur le generateur et cliquez sur "Se connecter".');
+                alert('Vous devez vous connecter avant de souscrire. Retournez sur le générateur et cliquez sur "Se connecter".');
                 return;
             }
 

@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     // Verify auth
     const user = await getUserFromToken(req);
     if (!user) {
-        return res.status(401).json({ error: 'Non authentifie' });
+        return res.status(401).json({ error: 'Non authentifié' });
     }
 
     try {
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
         // Build the candidate profile summary
         const educationSummary = (candidat.education || []).map(e =>
-            `- ${e.degree}${e.field ? ' en ' + e.field : ''} a ${e.school} (${e.start || ''} - ${e.end || ''})${e.gpa ? ', ' + e.gpa : ''}${e.details ? '. Cours: ' + e.details : ''}`
+            `- ${e.degree}${e.field ? ' en ' + e.field : ''} à ${e.school} (${e.start || ''} - ${e.end || ''})${e.gpa ? ', ' + e.gpa : ''}${e.details ? '. Cours: ' + e.details : ''}`
         ).join('\n');
 
         const experienceSummary = (candidat.experience || []).map(e =>
@@ -67,74 +67,74 @@ export default async function handler(req, res) {
 }
 
 function buildFrenchPrompt(candidat, offre, educationSummary, experienceSummary, languagesSummary) {
-    return `Tu es un expert en recrutement finance et conseil en strategie. Tu rediges des lettres de motivation selon les standards AlumnEye / PrepFinance qui permettent de decrocher des offres chez Goldman Sachs, Rothschild, Lazard, McKinsey, BCG, etc.
+    return `Tu es un expert en recrutement finance et conseil en stratégie. Tu rédiges des lettres de motivation selon les standards AlumnEye / PrepFinance qui permettent de décrocher des offres chez Goldman Sachs, Rothschild, Lazard, McKinsey, BCG, etc.
 
-REGLES DE FORMAT STRICTES :
-- La lettre fait entre 12 et 15 lignes de corps de texte (hors en-tete)
+RÈGLES DE FORMAT STRICTES :
+- La lettre fait entre 12 et 15 lignes de corps de texte (hors en-tête)
 - Police standard (Arial/Calibri), pas d'italique, pas de gras dans le corps
-- PAS d'indentation en debut de paragraphe
+- PAS d'indentation en début de paragraphe
 - Un saut de ligne entre chaque paragraphe
 - Structure en 4 paragraphes maximum
-- Ton professionnel, sobre, precis. Pas de phrases creuses ou generiques
-- Pas de "je suis motive" ou "votre entreprise est leader" sans argument concret
+- Ton professionnel, sobre, précis. Pas de phrases creuses ou génériques
+- Pas de "je suis motivé" ou "votre entreprise est leader" sans argument concret
 
 STRUCTURE ALUMNEYE :
-1. INTRO (2-3 lignes) : Situation actuelle du candidat + interet pour le poste precis. Direct, pas de flatterie.
-2. POURQUOI CETTE ENTREPRISE (3-4 lignes) : Arguments SPECIFIQUES a cette entreprise. Mentionner des elements concrets : deals recents, positionnement, equipe, rencontres networking. Si le candidat a fourni des raisons, les utiliser. Sinon, deduire du texte de l'offre.
-3. POURQUOI MOI (4-5 lignes) : Experiences et competences du candidat mises en relation DIRECTE avec les missions de l'offre. Exemples concrets et quantifies. Montrer l'adequation profil/poste, pas juste lister le CV.
-4. CONCLUSION (2-3 lignes) : Adequation mutuelle + disponibilite pour entretien + formule de politesse integree.
+1. INTRO (2-3 lignes) : Situation actuelle du candidat + intérêt pour le poste précis. Direct, pas de flatterie.
+2. POURQUOI CETTE ENTREPRISE (3-4 lignes) : Arguments SPÉCIFIQUES à cette entreprise. Mentionner des éléments concrets : deals récents, positionnement, équipe, rencontres networking. Si le candidat a fourni des raisons, les utiliser. Sinon, déduire du texte de l'offre.
+3. POURQUOI MOI (4-5 lignes) : Expériences et compétences du candidat mises en relation DIRECTE avec les missions de l'offre. Exemples concrets et quantifiés. Montrer l'adéquation profil/poste, pas juste lister le CV.
+4. CONCLUSION (2-3 lignes) : Adéquation mutuelle + disponibilité pour entretien + formule de politesse intégrée.
 
 PROFIL DU CANDIDAT :
 Nom : ${candidat.firstName} ${candidat.lastName}
 Email : ${candidat.email || 'N/A'}
-Telephone : ${candidat.phone || 'N/A'}
+Téléphone : ${candidat.phone || 'N/A'}
 Adresse : ${candidat.address || 'N/A'}
 
 Formation :
-${educationSummary || 'Non renseignee'}
+${educationSummary || 'Non renseignée'}
 
-Experiences :
-${experienceSummary || 'Non renseignees'}
+Expériences :
+${experienceSummary || 'Non renseignées'}
 
-Competences techniques : ${candidat.technicalSkills || 'N/A'}
-Competences finance : ${candidat.financeSkills || 'N/A'}
+Compétences techniques : ${candidat.technicalSkills || 'N/A'}
+Compétences finance : ${candidat.financeSkills || 'N/A'}
 Certifications : ${candidat.certifications || 'N/A'}
 Langues : ${languagesSummary || 'N/A'}
-Centres d'interet : ${candidat.interests || 'N/A'}
+Centres d'intérêt : ${candidat.interests || 'N/A'}
 
 OFFRE D'EMPLOI :
 Poste : ${offre.jobTitle}
 Entreprise : ${offre.companyName}
-Duree/Periode : ${offre.jobDuration || 'Non precisee'}
-Reference : ${offre.jobRef || 'N/A'}
+Durée/Période : ${offre.jobDuration || 'Non précisée'}
+Référence : ${offre.jobRef || 'N/A'}
 Destinataire : ${offre.recipientName || 'N/A'}
 
 Texte de l'offre :
 ${offre.jobOffer}
 
-Pourquoi cette entreprise (donne par le candidat) :
-${offre.whyThisFirm || 'Non precise - deduis des elements pertinents du texte de l\'offre'}
+Pourquoi cette entreprise (donné par le candidat) :
+${offre.whyThisFirm || 'Non précisé - déduis des éléments pertinents du texte de l\'offre'}
 
-INFORMATIONS PERSONNELLES DU CANDIDAT (a utiliser pour personnaliser la lettre, montrer sa singularite, ses motivations profondes, ses qualites humaines) :
+INFORMATIONS PERSONNELLES DU CANDIDAT (à utiliser pour personnaliser la lettre, montrer sa singularité, ses motivations profondes, ses qualités humaines) :
 ${offre.additionalNotes || 'Non fournies'}
 
-IMPORTANT : Si le candidat a fourni des informations personnelles ci-dessus (projet pro, qualites, anecdotes, rencontres, disponibilites, motivations...), tu DOIS les integrer naturellement dans la lettre. Ce sont ces details qui rendent la lettre unique et non-transposable a un autre candidat. Utilise-les dans le paragraphe "pourquoi moi" et/ou "pourquoi cette entreprise" selon leur nature.
+IMPORTANT : Si le candidat a fourni des informations personnelles ci-dessus (projet pro, qualités, anecdotes, rencontres, disponibilités, motivations...), tu DOIS les intégrer naturellement dans la lettre. Ce sont ces détails qui rendent la lettre unique et non-transposable à un autre candidat. Utilise-les dans le paragraphe "pourquoi moi" et/ou "pourquoi cette entreprise" selon leur nature.
 
 RENVOIE UNIQUEMENT LE HTML de la lettre en utilisant exactement cette structure (pas de \`\`\`html, pas d'explication, juste le HTML brut) :
 
 <div class="letter-header-fr">
     <div class="letter-sender-fr">
-        [Prenom Nom]<br>[Telephone]<br>[Email]
+        [Prénom Nom]<br>[Téléphone]<br>[Email]
     </div>
     <div class="letter-recipient-fr">
         [Nom entreprise]<br>[Destinataire si fourni]<br>Service Recrutement
     </div>
 </div>
 <div class="letter-date-fr">
-    [Ville], le [date du jour en francais]
+    [Ville], le [date du jour en français]
 </div>
 <div class="letter-object">
-    Objet : [Candidature / Reponse a l'offre avec ref si fournie, poste, duree si fournie]
+    Objet : [Candidature / Réponse à l'offre avec ref si fournie, poste, durée si fournie]
 </div>
 <div class="letter-salutation">
     [Madame, Monsieur, OU nom du destinataire si fourni],
