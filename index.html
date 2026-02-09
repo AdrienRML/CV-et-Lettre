@@ -291,8 +291,9 @@ Autres : Lecture (marches financiers, geopolitique), Voyages (15 pays)"></textar
                 <div class="form-group">
                     <label for="letterLanguage">Langue de la lettre</label>
                     <select id="letterLanguage">
-                        <option value="fr">Francais</option>
-                        <option value="en">English</option>
+                        <option value="auto">Auto (detectee depuis l'offre)</option>
+                        <option value="fr">Forcer Francais</option>
+                        <option value="en">Forcer English</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -319,8 +320,15 @@ Profil recherche :
                 <textarea id="whyThisFirm" rows="3" placeholder="Ex: J'ai rencontre X lors du forum Y, la banque est leader en M&A mid-cap en Europe, deal recent Z m'a interesse..."></textarea>
             </div>
             <div class="form-group full-width">
-                <label for="additionalNotes">Notes supplementaires (optionnel)</label>
-                <textarea id="additionalNotes" rows="2" placeholder="Informations supplementaires a integrer..."></textarea>
+                <label for="additionalNotes">Parlez de vous — tout ce qui peut enrichir la lettre</label>
+                <textarea id="additionalNotes" rows="6" placeholder="Donnez ici TOUTES les informations personnelles qui peuvent aider a rediger votre lettre. Plus vous en donnez, meilleure sera la lettre. Exemples :
+
+- Pourquoi la finance / le conseil ? Quel est votre projet professionnel ?
+- Qualites personnelles : rigoureux, esprit d'equipe, resilient...
+- Experiences marquantes : projet associatif, competition, entrepreneuriat...
+- Rencontres / networking : 'J'ai echange avec X chez Y lors du forum Z'
+- Disponibilites : 'Disponible de janvier a juillet 2026'
+- Tout autre element personnel que vous voulez mettre en avant"></textarea>
             </div>
             <div class="form-nav">
                 <button class="btn btn-outline" onclick="prevStep(4)">Precedent</button>

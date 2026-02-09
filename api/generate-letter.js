@@ -111,8 +111,10 @@ ${offre.jobOffer}
 Pourquoi cette entreprise (donne par le candidat) :
 ${offre.whyThisFirm || 'Non precise - deduis des elements pertinents du texte de l\'offre'}
 
-Notes supplementaires :
-${offre.additionalNotes || 'Aucune'}
+INFORMATIONS PERSONNELLES DU CANDIDAT (a utiliser pour personnaliser la lettre, montrer sa singularite, ses motivations profondes, ses qualites humaines) :
+${offre.additionalNotes || 'Non fournies'}
+
+IMPORTANT : Si le candidat a fourni des informations personnelles ci-dessus (projet pro, qualites, anecdotes, rencontres, disponibilites, motivations...), tu DOIS les integrer naturellement dans la lettre. Ce sont ces details qui rendent la lettre unique et non-transposable a un autre candidat. Utilise-les dans le paragraphe "pourquoi moi" et/ou "pourquoi cette entreprise" selon leur nature.
 
 RENVOIE UNIQUEMENT LE HTML de la lettre en utilisant exactement cette structure (pas de \`\`\`html, pas d'explication, juste le HTML brut) :
 
@@ -193,8 +195,10 @@ ${offre.jobOffer}
 Why this firm (provided by candidate):
 ${offre.whyThisFirm || 'Not specified - deduce relevant elements from the job description'}
 
-Additional notes:
-${offre.additionalNotes || 'None'}
+CANDIDATE'S PERSONAL INFORMATION (use to personalize the letter, show their uniqueness, deep motivations, human qualities):
+${offre.additionalNotes || 'Not provided'}
+
+IMPORTANT: If the candidate provided personal information above (career goals, qualities, anecdotes, networking contacts, availability, motivations...), you MUST integrate them naturally into the letter. These details are what make the letter unique and non-transferable to another candidate. Use them in the "why me" and/or "why this firm" paragraphs depending on their nature.
 
 RETURN ONLY THE HTML of the letter using exactly this structure (no \`\`\`html, no explanation, just raw HTML):
 

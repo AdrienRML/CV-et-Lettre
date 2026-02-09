@@ -623,6 +623,28 @@ function generateCoverLetterEN(data, keywords) {
     `;
 }
 
+// ===== Auto-detect language from job offer text =====
+function detectLanguage(text) {
+    if (!text) return 'fr';
+    const lower = text.toLowerCase();
+    // Count French and English indicator words
+    const frWords = ['nous recherchons', 'vous serez', 'poste', 'stage', 'missions', 'profil recherche',
+        'candidat', 'entreprise', 'equipe', 'competences', 'formation', 'experience',
+        'rejoindre', 'sein de', 'dans le cadre', 'rattache', 'responsabilites',
+        'souhaitez', 'maitrise', 'bac+', 'diplome', 'alternance', 'obligatoire'];
+    const enWords = ['we are looking', 'you will', 'position', 'internship', 'responsibilities', 'requirements',
+        'candidate', 'company', 'team', 'skills', 'education', 'experience',
+        'join', 'within', 'as part of', 'reporting to', 'duties',
+        'apply', 'proficiency', 'degree', 'bachelor', 'mandatory', 'the ideal'];
+
+    let frCount = 0;
+    let enCount = 0;
+    frWords.forEach(w => { if (lower.includes(w)) frCount++; });
+    enWords.forEach(w => { if (lower.includes(w)) enCount++; });
+
+    return enCount > frCount ? 'en' : 'fr';
+}
+
 // ===== Main Generation =====
 async function generateDocuments() {
     const data = collectData();
@@ -634,6 +656,12 @@ async function generateDocuments() {
     if (!data.jobTitle || !data.companyName) {
         alert('Veuillez renseigner le poste et l\'entreprise cible.');
         return;
+    }
+
+    // Resolve language: auto-detect or forced
+    let resolvedLanguage = data.letterLanguage;
+    if (resolvedLanguage === 'auto') {
+        resolvedLanguage = detectLanguage(data.jobOffer);
     }
 
     const keywords = extractKeywords(data.jobOffer);
@@ -650,11 +678,12 @@ async function generateDocuments() {
 
     // Show loading state for the letter
     const letterOutput = document.getElementById('letter-output');
+    const langLabel = resolvedLanguage === 'en' ? 'English' : 'Francais';
     letterOutput.innerHTML = `
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;padding:40px;font-family:Calibri,Arial,sans-serif;">
             <div class="spinner"></div>
             <p style="margin-top:16px;font-size:12pt;color:#4a5568;">Generation de la lettre de motivation par IA en cours...</p>
-            <p style="font-size:10pt;color:#718096;margin-top:6px;">Analyse de l'offre et personnalisation (~15 secondes)</p>
+            <p style="font-size:10pt;color:#718096;margin-top:6px;">Langue detectee : ${langLabel} — Analyse de l'offre et personnalisation (~15 secondes)</p>
         </div>
     `;
 
@@ -693,7 +722,7 @@ async function generateDocuments() {
             body: JSON.stringify({
                 candidat,
                 offre,
-                langue: data.letterLanguage
+                langue: resolvedLanguage
             })
         });
 
@@ -708,7 +737,7 @@ async function generateDocuments() {
     } catch (error) {
         console.error('Letter generation failed:', error);
         // Fallback to client-side template
-        const fallbackHTML = data.letterLanguage === 'en'
+        const fallbackHTML = resolvedLanguage === 'en'
             ? generateCoverLetterEN(data, keywords)
             : generateCoverLetterFR(data, keywords);
         letterOutput.innerHTML = fallbackHTML;
