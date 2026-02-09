@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarifs — Finance CV & Lettre Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .pricing-hero {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+        }
+        .pricing-hero h2 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .pricing-hero p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            max-width: 900px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+        }
+        .pricing-card {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem;
+            text-align: center;
+            position: relative;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .pricing-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-lg);
+        }
+        .pricing-card.popular {
+            border-color: var(--primary);
+        }
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .pricing-card h3 {
+            font-size: 1.15rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+        .pricing-price {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+        .pricing-price span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-light);
+        }
+        .pricing-desc {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-bottom: 1.25rem;
+        }
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+        .pricing-features li {
+            padding: 0.3rem 0;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+        .pricing-features li::before {
+            content: "✓ ";
+            color: var(--success);
+            font-weight: 700;
+        }
+        .pricing-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .pricing-btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .pricing-btn-primary:hover {
+            background: var(--primary-light);
+            box-shadow: var(--shadow-md);
+        }
+        .pricing-btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .pricing-btn-outline:hover {
+            background: var(--primary-lighter);
+        }
+        .pricing-note {
+            text-align: center;
+            max-width: 600px;
+            margin: 1.5rem auto;
+            padding: 1rem;
+            background: var(--primary-lighter);
+            border-radius: 8px;
+            font-size: 0.88rem;
+            color: var(--primary);
+        }
+        .referral-section {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        .referral-section h3 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+        .referral-section p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        .referral-code-box {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+        .referral-code-box input {
+            flex: 1;
+            padding: 0.6rem;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 2px;
+            color: var(--primary);
+            background: var(--primary-lighter);
+        }
+        .referral-code-box button {
+            padding: 0.6rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 1rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        .success-banner, .cancel-banner {
+            max-width: 600px;
+            margin: 1rem auto;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+        .success-banner {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 1px solid #38a169;
+        }
+        .cancel-banner {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #e53e3e;
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Finance CV & Cover Letter Generator</h1>
+            <p class="subtitle">Choisissez le plan qui vous convient</p>
+        </div>
+    </header>
+
+    <main style="max-width:960px;margin:0 auto;padding:0 1rem 3rem;">
+        <a href="index.html" class="back-link">← Retour au generateur</a>
+
+        <div class="success-banner" id="success-banner">
+            Paiement reussi ! Vos credits ont ete ajoutes. <a href="index.html">Generer une lettre</a>
+        </div>
+        <div class="cancel-banner" id="cancel-banner">
+            Paiement annule. Vous pouvez reessayer quand vous voulez.
+        </div>
+
+        <div class="pricing-hero">
+            <h2>Generez des CV gratuits, des lettres d'exception</h2>
+            <p>CV finance illimite et gratuit. Lettres de motivation generees par IA Claude.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Free -->
+            <div class="pricing-card">
+                <h3>Gratuit</h3>
+                <div class="pricing-price">0€</div>
+                <div class="pricing-desc">Pour decouvrir</div>
+                <ul class="pricing-features">
+                    <li>CV finance illimite</li>
+                    <li>1 lettre IA offerte</li>
+                    <li>Export PDF</li>
+                    <li>Analyse ATS</li>
+                </ul>
+                <a href="index.html"><button class="pricing-btn pricing-btn-outline">Commencer</button></a>
+            </div>
+
+            <!-- Monthly -->
+            <div class="pricing-card popular">
+                <span class="popular-badge">Populaire</span>
+                <h3>Mensuel</h3>
+                <div class="pricing-price">6€ <span>/ mois</span></div>
+                <div class="pricing-desc">100 lettres / mois</div>
+                <ul class="pricing-features">
+                    <li>CV finance illimite</li>
+                    <li>100 lettres IA / mois</li>
+                    <li>Export PDF</li>
+                    <li>Analyse ATS</li>
+                    <li>Detection langue auto</li>
+                </ul>
+                <button class="pricing-btn pricing-btn-primary" onclick="subscribe('monthly')">S'abonner</button>
+            </div>
+
+            <!-- Annual -->
+            <div class="pricing-card">
+                <h3>Annuel</h3>
+                <div class="pricing-price">40€ <span>/ an</span></div>
+                <div class="pricing-desc">1000 lettres / an — 44% d'economie</div>
+                <ul class="pricing-features">
+                    <li>CV finance illimite</li>
+                    <li>1000 lettres IA / an</li>
+                    <li>Export PDF</li>
+                    <li>Analyse ATS</li>
+                    <li>Detection langue auto</li>
+                </ul>
+                <button class="pricing-btn pricing-btn-primary" onclick="subscribe('annual')">S'abonner</button>
+            </div>
+
+            <!-- Pack -->
+            <div class="pricing-card">
+                <h3>Pack 10 Lettres</h3>
+                <div class="pricing-price">2€</div>
+                <div class="pricing-desc">Sans abonnement</div>
+                <ul class="pricing-features">
+                    <li>CV finance illimite</li>
+                    <li>10 lettres IA</li>
+                    <li>Pas d'expiration</li>
+                    <li>Export PDF</li>
+                    <li>Analyse ATS</li>
+                </ul>
+                <button class="pricing-btn pricing-btn-outline" onclick="subscribe('pack10')">Acheter</button>
+            </div>
+        </div>
+
+        <div class="pricing-note">
+            Le CV est toujours 100% gratuit et illimite. Seules les lettres de motivation generees par IA utilisent des credits.
+        </div>
+
+        <!-- Referral Section -->
+        <div class="referral-section" id="referral-section">
+            <h3>Parrainage — Gagnez 10 lettres gratuites</h3>
+            <p>Invitez un ami. Quand il prend un abonnement (mensuel ou annuel), vous recevez <strong>10 lettres gratuites</strong>.</p>
+            <div class="referral-code-box">
+                <input type="text" id="referral-code-display" readonly value="—">
+                <button onclick="copyReferralCode()">Copier</button>
+            </div>
+            <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--text-lighter);">Partagez ce code. Votre ami le saisit a l'inscription.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>Finance CV & Cover Letter Generator</p>
+    </footer>
+
+    <script>
+        // Check URL params for success/cancel
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('success') === 'true') {
+            document.getElementById('success-banner').style.display = 'block';
+        }
+        if (params.get('canceled') === 'true') {
+            document.getElementById('cancel-banner').style.display = 'block';
+        }
+
+        // Get auth token
+        function getToken() {
+            return localStorage.getItem('auth_token');
+        }
+
+        // Load referral code if logged in
+        async function loadReferralCode() {
+            const token = getToken();
+            if (!token) {
+                document.getElementById('referral-section').innerHTML =
+                    '<h3>Parrainage</h3><p><a href="index.html">Connectez-vous</a> pour obtenir votre code de parrainage.</p>';
+                return;
+            }
+            try {
+                const resp = await fetch('/api/credits', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                if (resp.ok) {
+                    const data = await resp.json();
+                    document.getElementById('referral-code-display').value = data.referralCode || '—';
+                }
+            } catch (e) {}
+        }
+
+        function copyReferralCode() {
+            const code = document.getElementById('referral-code-display').value;
+            if (code && code !== '—') {
+                navigator.clipboard.writeText(code);
+                const btn = document.querySelector('.referral-code-box button');
+                btn.textContent = 'Copie !';
+                setTimeout(() => btn.textContent = 'Copier', 2000);
+            }
+        }
+
+        async function subscribe(planId) {
+            const token = getToken();
+            if (!token) {
+                alert('Vous devez vous connecter avant de souscrire. Retournez sur le generateur et cliquez sur "Se connecter".');
+                return;
+            }
+
+            try {
+                const resp = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ planId })
+                });
+
+                const data = await resp.json();
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    alert(data.error || 'Erreur lors du paiement');
+                }
+            } catch (e) {
+                alert('Erreur de connexion au serveur');
+            }
+        }
+
+        loadReferralCode();
+    </script>
+</body>
+</html>

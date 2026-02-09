@@ -683,6 +683,122 @@ main {
     color: #742a2a;
 }
 
+/* === Header Auth === */
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-auth {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-user {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.85rem;
+}
+
+/* === Modal === */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-content h2 {
+    font-size: 1.25rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.modal-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-lighter);
+}
+
+/* === Credit Bar === */
+.credit-bar {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0.6rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--primary-lighter);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+}
+
+.credit-info {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.credit-plan {
+    font-weight: 400;
+    color: var(--text-light);
+    margin-left: 0.5rem;
+}
+
+.credit-upgrade {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.credit-upgrade:hover {
+    text-decoration: underline;
+}
+
+/* === No Credits Banner === */
+.no-credits-banner {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.no-credits-banner h3 {
+    color: #92400e;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.no-credits-banner p {
+    color: #78350f;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
 /* === Loading Spinner === */
 .spinner {
     width: 40px;

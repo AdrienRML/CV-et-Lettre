@@ -10,10 +10,50 @@
 <body>
     <header>
         <div class="header-content">
-            <h1>Finance CV & Cover Letter Generator</h1>
+            <div class="header-top">
+                <h1>Finance CV & Cover Letter Generator</h1>
+                <div class="header-auth" id="header-auth">
+                    <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);" onclick="showAuthModal()">Se connecter</button>
+                </div>
+            </div>
             <p class="subtitle">Generez un CV et une lettre de motivation optimises ATS pour la finance</p>
         </div>
     </header>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="auth-modal" style="display:none;">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+            <h2 id="auth-modal-title">Se connecter</h2>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+                <label>Email</label>
+                <input type="email" id="auth-email" placeholder="votre@email.com">
+            </div>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+                <label>Mot de passe</label>
+                <input type="password" id="auth-password" placeholder="Mot de passe">
+            </div>
+            <div id="auth-referral-group" style="display:none;margin-bottom:0.75rem;" class="form-group">
+                <label>Code de parrainage (optionnel)</label>
+                <input type="text" id="auth-referral" placeholder="Ex: A1B2C3D4">
+            </div>
+            <div id="auth-error" style="color:#e53e3e;font-size:0.85rem;margin-bottom:0.5rem;display:none;"></div>
+            <button class="btn btn-primary" style="width:100%;margin-bottom:0.75rem;" id="auth-submit-btn" onclick="submitAuth()">Se connecter</button>
+            <p style="text-align:center;font-size:0.85rem;color:var(--text-light);">
+                <span id="auth-toggle-text">Pas encore de compte ?</span>
+                <a href="#" id="auth-toggle-link" onclick="toggleAuthMode(event)" style="color:var(--primary);font-weight:600;">Creer un compte</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Credit Bar -->
+    <div class="credit-bar" id="credit-bar" style="display:none;">
+        <div class="credit-info">
+            <span id="credit-count">0</span> lettre(s) disponible(s)
+            <span class="credit-plan" id="credit-plan"></span>
+        </div>
+        <a href="pricing.html" class="credit-upgrade">Voir les offres</a>
+    </div>
 
     <main>
         <!-- Step indicator -->

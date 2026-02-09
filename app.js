@@ -1,5 +1,184 @@
 // ===== State Management =====
 let currentStep = 1;
+let authMode = 'login'; // 'login' or 'register'
+
+// ===== Auth System =====
+function getToken() {
+    return localStorage.getItem('auth_token');
+}
+
+function setToken(token) {
+    localStorage.setItem('auth_token', token);
+}
+
+function clearToken() {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_data');
+}
+
+function getUserData() {
+    try {
+        return JSON.parse(localStorage.getItem('user_data') || 'null');
+    } catch { return null; }
+}
+
+function setUserData(data) {
+    localStorage.setItem('user_data', JSON.stringify(data));
+}
+
+function showAuthModal() {
+    document.getElementById('auth-modal').style.display = 'flex';
+    document.getElementById('auth-error').style.display = 'none';
+}
+
+function closeAuthModal() {
+    document.getElementById('auth-modal').style.display = 'none';
+}
+
+function toggleAuthMode(e) {
+    e.preventDefault();
+    authMode = authMode === 'login' ? 'register' : 'login';
+    document.getElementById('auth-modal-title').textContent =
+        authMode === 'login' ? 'Se connecter' : 'Creer un compte';
+    document.getElementById('auth-submit-btn').textContent =
+        authMode === 'login' ? 'Se connecter' : 'Creer mon compte';
+    document.getElementById('auth-toggle-text').textContent =
+        authMode === 'login' ? 'Pas encore de compte ?' : 'Deja un compte ?';
+    document.getElementById('auth-toggle-link').textContent =
+        authMode === 'login' ? 'Creer un compte' : 'Se connecter';
+    document.getElementById('auth-referral-group').style.display =
+        authMode === 'register' ? 'block' : 'none';
+    document.getElementById('auth-error').style.display = 'none';
+}
+
+async function submitAuth() {
+    const email = document.getElementById('auth-email').value.trim();
+    const password = document.getElementById('auth-password').value;
+    const referralCode = document.getElementById('auth-referral').value.trim();
+    const errorEl = document.getElementById('auth-error');
+
+    if (!email || !password) {
+        errorEl.textContent = 'Veuillez remplir tous les champs';
+        errorEl.style.display = 'block';
+        return;
+    }
+
+    if (authMode === 'register' && password.length < 6) {
+        errorEl.textContent = 'Le mot de passe doit contenir au moins 6 caracteres';
+        errorEl.style.display = 'block';
+        return;
+    }
+
+    try {
+        const resp = await fetch('/api/auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: authMode === 'login' ? 'login' : 'register',
+                email,
+                password,
+                referralCode: authMode === 'register' ? referralCode : undefined
+            })
+        });
+
+        const data = await resp.json();
+
+        if (!resp.ok) {
+            errorEl.textContent = data.error || 'Erreur';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        setToken(data.token);
+        setUserData(data.user);
+        closeAuthModal();
+        updateAuthUI();
+        loadCredits();
+
+    } catch (err) {
+        errorEl.textContent = 'Erreur de connexion au serveur';
+        errorEl.style.display = 'block';
+    }
+}
+
+function logout() {
+    clearToken();
+    updateAuthUI();
+    document.getElementById('credit-bar').style.display = 'none';
+}
+
+function updateAuthUI() {
+    const headerAuth = document.getElementById('header-auth');
+    const user = getUserData();
+    const token = getToken();
+
+    if (token && user) {
+        headerAuth.innerHTML = `
+            <span class="header-user">${user.email}</span>
+            <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);" onclick="logout()">Deconnexion</button>
+        `;
+        loadCredits();
+    } else {
+        headerAuth.innerHTML = `
+            <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);" onclick="showAuthModal()">Se connecter</button>
+        `;
+    }
+}
+
+async function loadCredits() {
+    const token = getToken();
+    if (!token) return;
+
+    try {
+        const resp = await fetch('/api/credits', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+
+        if (!resp.ok) {
+            if (resp.status === 401) { clearToken(); updateAuthUI(); }
+            return;
+        }
+
+        const data = await resp.json();
+        const creditBar = document.getElementById('credit-bar');
+        creditBar.style.display = 'flex';
+        document.getElementById('credit-count').textContent = data.totalAvailable;
+
+        let planLabel = '';
+        if (data.plan === 'monthly') planLabel = '(Mensuel)';
+        else if (data.plan === 'annual') planLabel = '(Annuel)';
+        else planLabel = '(Gratuit)';
+        document.getElementById('credit-plan').textContent = planLabel;
+
+    } catch (e) {}
+}
+
+async function useCredit() {
+    const token = getToken();
+    if (!token) return false;
+
+    try {
+        const resp = await fetch('/api/credits', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ action: 'use' })
+        });
+
+        if (!resp.ok) {
+            const data = await resp.json();
+            if (data.needsUpgrade) return 'needs_upgrade';
+            return false;
+        }
+
+        loadCredits(); // Refresh display
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
 
 // ===== Navigation =====
 function nextStep(step) {
@@ -658,6 +837,37 @@ async function generateDocuments() {
         return;
     }
 
+    // Check auth — require login to generate letter
+    const token = getToken();
+    if (!token) {
+        showAuthModal();
+        return;
+    }
+
+    // Check and consume a credit
+    const creditResult = await useCredit();
+    if (creditResult === 'needs_upgrade') {
+        // Show the CV anyway but block the letter
+        const keywords = extractKeywords(data.jobOffer);
+        const cvHTML = generateCV(data, keywords);
+        document.getElementById('cv-output').innerHTML = cvHTML;
+        showATSAnalysis(data, keywords);
+        nextStep(6);
+
+        document.getElementById('letter-output').innerHTML = `
+            <div class="no-credits-banner">
+                <h3>Plus de credits disponibles</h3>
+                <p>Votre CV est pret ! Pour generer une lettre de motivation par IA, ajoutez des credits.</p>
+                <a href="pricing.html"><button class="btn btn-primary">Voir les offres</button></a>
+            </div>
+        `;
+        return;
+    }
+    if (creditResult === false) {
+        alert('Erreur lors de la verification des credits. Veuillez vous reconnecter.');
+        return;
+    }
+
     // Resolve language: auto-detect or forced
     let resolvedLanguage = data.letterLanguage;
     if (resolvedLanguage === 'auto') {
@@ -718,7 +928,10 @@ async function generateDocuments() {
     try {
         const response = await fetch('/api/generate-letter', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getToken()
+            },
             body: JSON.stringify({
                 candidat,
                 offre,
@@ -891,5 +1104,8 @@ document.addEventListener('input', (e) => {
     window._saveTimeout = setTimeout(saveToLocalStorage, 1000);
 });
 
-// Restore on page load
-document.addEventListener('DOMContentLoaded', restoreFromLocalStorage);
+// Restore on page load + init auth
+document.addEventListener('DOMContentLoaded', () => {
+    restoreFromLocalStorage();
+    updateAuthUI();
+});
