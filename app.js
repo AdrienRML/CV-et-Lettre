@@ -624,7 +624,7 @@ function generateCoverLetterEN(data, keywords) {
 }
 
 // ===== Main Generation =====
-function generateDocuments() {
+async function generateDocuments() {
     const data = collectData();
 
     if (!data.firstName || !data.lastName) {
@@ -638,20 +638,87 @@ function generateDocuments() {
 
     const keywords = extractKeywords(data.jobOffer);
 
-    // Generate CV
+    // Generate CV (instant, client-side)
     const cvHTML = generateCV(data, keywords);
     document.getElementById('cv-output').innerHTML = cvHTML;
-
-    // Generate Cover Letter based on language
-    const letterHTML = data.letterLanguage === 'en'
-        ? generateCoverLetterEN(data, keywords)
-        : generateCoverLetterFR(data, keywords);
-    document.getElementById('letter-output').innerHTML = letterHTML;
 
     // ATS analysis
     showATSAnalysis(data, keywords);
 
+    // Navigate to results immediately — CV is ready
     nextStep(6);
+
+    // Show loading state for the letter
+    const letterOutput = document.getElementById('letter-output');
+    letterOutput.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;padding:40px;font-family:Calibri,Arial,sans-serif;">
+            <div class="spinner"></div>
+            <p style="margin-top:16px;font-size:12pt;color:#4a5568;">Generation de la lettre de motivation par IA en cours...</p>
+            <p style="font-size:10pt;color:#718096;margin-top:6px;">Analyse de l'offre et personnalisation (~15 secondes)</p>
+        </div>
+    `;
+
+    // Build candidate and offer objects for the API
+    const candidat = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+        linkedin: data.linkedin,
+        education: data.education,
+        experience: data.experience,
+        technicalSkills: data.technicalSkills,
+        financeSkills: data.financeSkills,
+        certifications: data.certifications,
+        languages: data.languages,
+        interests: data.interests
+    };
+
+    const offre = {
+        jobTitle: data.jobTitle,
+        companyName: data.companyName,
+        jobDuration: data.jobDuration,
+        jobRef: data.jobRef,
+        recipientName: data.recipientName,
+        jobOffer: data.jobOffer,
+        whyThisFirm: data.whyThisFirm,
+        additionalNotes: data.additionalNotes
+    };
+
+    try {
+        const response = await fetch('/api/generate-letter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                candidat,
+                offre,
+                langue: data.letterLanguage
+            })
+        });
+
+        if (!response.ok) {
+            const err = await response.json().catch(() => ({}));
+            throw new Error(err.error || `HTTP ${response.status}`);
+        }
+
+        const result = await response.json();
+        letterOutput.innerHTML = result.letter;
+
+    } catch (error) {
+        console.error('Letter generation failed:', error);
+        // Fallback to client-side template
+        const fallbackHTML = data.letterLanguage === 'en'
+            ? generateCoverLetterEN(data, keywords)
+            : generateCoverLetterFR(data, keywords);
+        letterOutput.innerHTML = fallbackHTML;
+
+        // Show error notice
+        const notice = document.createElement('div');
+        notice.style.cssText = 'background:#fef3c7;border:1px solid #f59e0b;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:9pt;color:#92400e;font-family:Calibri,Arial,sans-serif;';
+        notice.textContent = 'La generation IA a echoue (' + error.message + '). Lettre generee en mode template. Vous pouvez la modifier directement.';
+        letterOutput.insertBefore(notice, letterOutput.firstChild);
+    }
 }
 
 // ===== ATS Keywords Analysis =====
